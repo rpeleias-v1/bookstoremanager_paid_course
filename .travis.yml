@@ -1,0 +1,4 @@
+dist: xenial
+language: java
+sudo: false
+jdk: openjdk14
