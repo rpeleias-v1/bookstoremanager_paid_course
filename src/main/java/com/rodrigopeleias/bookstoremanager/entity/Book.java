@@ -3,6 +3,7 @@ package com.rodrigopeleias.bookstoremanager.entity;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,4 +39,7 @@ public class Book {
 
     @Column(columnDefinition = "integer default 0")
     private int chapters;
+
+    @Embedded
+    private Auditing auditing;
 }
