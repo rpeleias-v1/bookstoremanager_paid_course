@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -49,5 +50,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private List<Book> books;
+
+    @Embedded
+    private Auditing auditing;
 
 }

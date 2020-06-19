@@ -3,6 +3,7 @@ package com.rodrigopeleias.bookstoremanager.entity;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,4 +34,7 @@ public class Publisher {
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
     private List<Book> books;
+
+    @Embedded
+    private Auditing auditing;
 }
