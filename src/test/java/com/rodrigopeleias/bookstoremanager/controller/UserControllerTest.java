@@ -3,10 +3,8 @@ package com.rodrigopeleias.bookstoremanager.controller;
 import com.rodrigopeleias.bookstoremanager.builder.UserDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
-import com.rodrigopeleias.bookstoremanager.exception.UserAlreadyExistsException;
 import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
 import com.rodrigopeleias.bookstoremanager.service.UserService;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +18,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -105,6 +106,28 @@ public class UserControllerTest {
         mockMvc.perform(put(USER_API_URL_PATH + "/" + userDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userDTO)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void whenDELETEIsCalledThenNoContentIsInformed() throws Exception {
+        UserDTO userDTO = userDTOBuilder.buildUserDTO();
+
+        doNothing().when(userService).delete(userDTO.getId());
+
+        mockMvc.perform(delete(USER_API_URL_PATH + "/" + userDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void whenDELETEIsCalledWithInvalidUserThenNotFoundStatusIsInformed() throws Exception {
+        UserDTO userDTO = userDTOBuilder.buildUserDTO();
+
+        doThrow(UserNotExistsException.class).when(userService).delete(userDTO.getId());
+
+        mockMvc.perform(delete(USER_API_URL_PATH + "/" + userDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 }

@@ -32,4 +32,11 @@ public interface UserControllerDoc {
             @ApiResponse(code = 404, message = "User with informed ID not found in the system")
     })
     MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserAlreadyExistsException, UserNotExistsException;
+
+    @ApiOperation(value = "Delete update operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Success user deletion"),
+            @ApiResponse(code = 404, message = "User with informed ID not found in the system")
+    })
+    void delete(Long id) throws UserNotExistsException;
 }

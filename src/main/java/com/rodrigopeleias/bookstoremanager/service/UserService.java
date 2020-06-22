@@ -40,6 +40,10 @@ public class UserService {
         return updateMessage(updatedUser);
     }
 
+    public void delete(Long id) throws UserNotExistsException {
+        verifyIfExists(id);
+        userRepository.deleteById(id);
+    }
 
     private User verifyIfExists(Long id) throws UserNotExistsException {
         return userRepository.findById(id)
