@@ -47,7 +47,7 @@ public class User extends Auditable {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate birthdate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private List<Book> books;
 }

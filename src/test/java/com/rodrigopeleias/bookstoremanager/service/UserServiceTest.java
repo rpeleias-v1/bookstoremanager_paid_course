@@ -5,6 +5,7 @@ import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
 import com.rodrigopeleias.bookstoremanager.entity.User;
 import com.rodrigopeleias.bookstoremanager.exception.UserAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
 import com.rodrigopeleias.bookstoremanager.mapper.UserMapper;
 import com.rodrigopeleias.bookstoremanager.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
+    public static final long INVALID_USER_ID = 2L;
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
     @Mock
@@ -62,5 +64,32 @@ public class UserServiceTest {
         when(userRepository.findByEmailOrUsername(expectedCreatedUserDTO.getEmail(), expectedCreatedUserDTO.getUsername())).thenReturn(Optional.of(expectedCreatedUser));
 
         assertThrows(UserAlreadyExistsException.class, () -> userService.create(expectedCreatedUserDTO));
+    }
+
+    @Test
+    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserAlreadyExistsException, UserNotExistsException {
+        UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
+        expectedUpdatedUserDTO.setUsername("Rodrigo Update");
+        User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
+        String expectedUpdateMessage = "Username Rodrigo Update with ID 1 successfully updated";
+
+        when(userRepository.findById(expectedUpdatedUser.getId())).thenReturn(Optional.of(expectedUpdatedUser));
+        when(userRepository.save(expectedUpdatedUser)).thenReturn(expectedUpdatedUser);
+
+        MessageDTO successUpdatedMessage = userService.update(expectedUpdatedUser.getId(), expectedUpdatedUserDTO);
+
+        assertThat(successUpdatedMessage.getMessage(), is(equalTo(expectedUpdateMessage)));
+    }
+
+    @Test
+    void whenNotFoundUserIsInformedThenThrowAnException() {
+        UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
+        expectedUpdatedUserDTO.setUsername("Rodrigo Update");
+        expectedUpdatedUserDTO.setId(INVALID_USER_ID);
+
+
+        when(userRepository.findById(expectedUpdatedUserDTO.getId())).thenReturn(Optional.empty());
+
+        assertThrows(UserNotExistsException.class, () -> userService.update(INVALID_USER_ID, expectedUpdatedUserDTO));
     }
 }
