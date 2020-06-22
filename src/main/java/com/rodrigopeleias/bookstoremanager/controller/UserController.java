@@ -8,6 +8,7 @@ import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
 import com.rodrigopeleias.bookstoremanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,5 +37,11 @@ public class UserController implements UserControllerDoc {
     @ResponseStatus(HttpStatus.OK)
     public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserAlreadyExistsException, UserNotExistsException {
         return userService.update(id, userToUpdateDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) throws UserNotExistsException {
+        userService.delete(id);
     }
 }

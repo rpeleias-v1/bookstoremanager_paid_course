@@ -21,12 +21,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-    public static final long INVALID_USER_ID = 2L;
+    private static final long INVALID_USER_ID = 2L;
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
     @Mock
@@ -87,9 +90,30 @@ public class UserServiceTest {
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         expectedUpdatedUserDTO.setId(INVALID_USER_ID);
 
-
         when(userRepository.findById(expectedUpdatedUserDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(UserNotExistsException.class, () -> userService.update(INVALID_USER_ID, expectedUpdatedUserDTO));
+    }
+
+    @Test
+    void whenValidUserIsInformedThenDeleteThisUser() throws UserNotExistsException {
+        UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
+        User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDTO);
+
+        when(userRepository.findById(expectedDeletedUserDTO.getId())).thenReturn(Optional.of(expectedDeletedUser));
+        doNothing().when(userRepository).deleteById(expectedDeletedUserDTO.getId());
+
+        userService.delete(expectedDeletedUserDTO.getId());
+
+        verify(userRepository, times(1)).deleteById(expectedDeletedUserDTO.getId());
+    }
+
+    @Test
+    void whenInvalidUserIsInformedThenThrowException() {
+        UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
+
+        when(userRepository.findById(expectedDeletedUserDTO.getId())).thenReturn(Optional.empty());
+
+        assertThrows(UserNotExistsException.class, () -> userService.delete(expectedDeletedUserDTO.getId()));
     }
 }
