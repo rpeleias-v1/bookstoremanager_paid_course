@@ -54,7 +54,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledThenOCreatedStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledThenCreatedStatusIsInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         String expectedCreationMessage = "Username rodrigo with ID 1 successfully created";
         MessageDTO expectedCreationMessageDTO = MessageDTO.builder().message(expectedCreationMessage).build();

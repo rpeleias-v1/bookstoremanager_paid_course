@@ -70,7 +70,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserAlreadyExistsException, UserNotExistsException {
+    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserNotExistsException {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);

@@ -1,6 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.controller;
 
-import com.rodrigopeleias.bookstoremanager.controller.docs.UserControllerDoc;
+import com.rodrigopeleias.bookstoremanager.controller.docs.UserControllerDocs;
 import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
 import com.rodrigopeleias.bookstoremanager.exception.UserAlreadyExistsException;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
-public class UserController implements UserControllerDoc {
+public class UserController implements UserControllerDocs {
 
     @Autowired
     private UserService userService;
@@ -35,7 +35,7 @@ public class UserController implements UserControllerDoc {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserAlreadyExistsException, UserNotExistsException {
+    public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserNotExistsException {
         return userService.update(id, userToUpdateDTO);
     }
 
