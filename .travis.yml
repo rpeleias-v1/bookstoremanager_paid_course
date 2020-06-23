@@ -9,7 +9,7 @@ addons:
     token:
       secure: "$SONAR_TOKEN"
 script:
-  - mvn clean verify sonar:sonar -Pcoverage
+  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=rpeleias-training_bookstoremanager
 cache:
   directories:
     - $HOME/.m2
