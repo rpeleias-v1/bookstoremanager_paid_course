@@ -3,10 +3,13 @@ package com.rodrigopeleias.bookstoremanager.controller;
 import com.rodrigopeleias.bookstoremanager.controller.docs.AuthorControllerDocs;
 import com.rodrigopeleias.bookstoremanager.dto.AuthorDTO;
 import com.rodrigopeleias.bookstoremanager.exception.AuthorAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +30,10 @@ public class AuthorController implements AuthorControllerDocs {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthorDTO create(@RequestBody @Valid AuthorDTO authorDTO) throws AuthorAlreadyExistsException {
         return authorService.create(authorDTO);
+    }
+
+    @GetMapping("/{name}")
+    public AuthorDTO findByName(@PathVariable String name) throws AuthorNotFoundException {
+        return authorService.findByName(name);
     }
 }

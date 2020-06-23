@@ -3,7 +3,7 @@ package com.rodrigopeleias.bookstoremanager.controller;
 import com.rodrigopeleias.bookstoremanager.builder.UserDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
-import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.UserNotFoundException;
 import com.rodrigopeleias.bookstoremanager.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,7 +101,7 @@ public class UserControllerTest {
         userDTO.setId(INVALID_USER_ID);
         userDTO.setName("Rodrigo updated");
 
-        when(userService.update(userDTO.getId(), userDTO)).thenThrow(UserNotExistsException.class);
+        when(userService.update(userDTO.getId(), userDTO)).thenThrow(UserNotFoundException.class);
 
         mockMvc.perform(put(USER_API_URL_PATH + "/" + userDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,7 +124,7 @@ public class UserControllerTest {
     void whenDELETEIsCalledWithInvalidUserThenNotFoundStatusIsInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
 
-        doThrow(UserNotExistsException.class).when(userService).delete(userDTO.getId());
+        doThrow(UserNotFoundException.class).when(userService).delete(userDTO.getId());
 
         mockMvc.perform(delete(USER_API_URL_PATH + "/" + userDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))

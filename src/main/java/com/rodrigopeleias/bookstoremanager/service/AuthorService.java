@@ -3,6 +3,7 @@ package com.rodrigopeleias.bookstoremanager.service;
 import com.rodrigopeleias.bookstoremanager.dto.AuthorDTO;
 import com.rodrigopeleias.bookstoremanager.entity.Author;
 import com.rodrigopeleias.bookstoremanager.exception.AuthorAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.mapper.AuthorMapper;
 import com.rodrigopeleias.bookstoremanager.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,11 @@ public class AuthorService {
         if (duplicatedAuthor.isPresent()) {
             throw new AuthorAlreadyExistsException(authorName);
         }
+    }
+
+    public AuthorDTO findByName(String name) throws AuthorNotFoundException {
+        Author foundAuthor = authorRepository.findByName(name)
+                .orElseThrow(() -> new AuthorNotFoundException(name));
+        return authorMapper.toDTO(foundAuthor);
     }
 }

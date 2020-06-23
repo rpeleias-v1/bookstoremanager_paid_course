@@ -5,7 +5,7 @@ import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
 import com.rodrigopeleias.bookstoremanager.entity.User;
 import com.rodrigopeleias.bookstoremanager.exception.UserAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.UserNotFoundException;
 import com.rodrigopeleias.bookstoremanager.mapper.UserMapper;
 import com.rodrigopeleias.bookstoremanager.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +70,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserNotExistsException {
+    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserNotFoundException {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
@@ -92,11 +92,11 @@ public class UserServiceTest {
 
         when(userRepository.findById(expectedUpdatedUserDTO.getId())).thenReturn(Optional.empty());
 
-        assertThrows(UserNotExistsException.class, () -> userService.update(INVALID_USER_ID, expectedUpdatedUserDTO));
+        assertThrows(UserNotFoundException.class, () -> userService.update(INVALID_USER_ID, expectedUpdatedUserDTO));
     }
 
     @Test
-    void whenValidUserIsInformedThenDeleteThisUser() throws UserNotExistsException {
+    void whenValidUserIsInformedThenDeleteThisUser() throws UserNotFoundException {
         UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
         User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDTO);
 
@@ -114,6 +114,6 @@ public class UserServiceTest {
 
         when(userRepository.findById(expectedDeletedUserDTO.getId())).thenReturn(Optional.empty());
 
-        assertThrows(UserNotExistsException.class, () -> userService.delete(expectedDeletedUserDTO.getId()));
+        assertThrows(UserNotFoundException.class, () -> userService.delete(expectedDeletedUserDTO.getId()));
     }
 }
