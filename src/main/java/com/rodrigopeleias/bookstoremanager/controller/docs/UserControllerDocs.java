@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.validation.Valid;
 
 @Api("System users management")
-public interface UserControllerDoc {
+public interface UserControllerDocs {
 
     @ApiOperation(value = "User creation operation")
     @ApiResponses(value = {
