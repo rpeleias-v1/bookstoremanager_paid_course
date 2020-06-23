@@ -5,7 +5,7 @@ jdk: openjdk14
 install: true
 addons:
   sonarcloud:
-    organization: "your_organization_key"
+    organization: "rpeleias-training"
     token:
       secure: "$SONAR_TOKEN"
 script:
