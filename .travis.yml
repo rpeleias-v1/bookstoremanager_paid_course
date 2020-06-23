@@ -7,9 +7,9 @@ addons:
   sonarcloud:
     organization: "rpeleias-training"
     token:
-      secure: "$SONAR_TOKEN"
+      secure: $SONAR_TOKEN
 script:
-  - mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=rpeleias-training_bookstoremanager
+  - mvn clean verify sonar:sonar -Pcoverage
 cache:
   directories:
     - $HOME/.m2
