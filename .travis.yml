@@ -2,6 +2,14 @@ dist: xenial
 language: java
 sudo: false
 jdk: openjdk14
+install: true
+addons:
+  sonarcloud:
+    organization: "your_organization_key"
+    token:
+      secure: "$SONAR_TOKEN"
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 cache:
   directories:
     - $HOME/.m2
