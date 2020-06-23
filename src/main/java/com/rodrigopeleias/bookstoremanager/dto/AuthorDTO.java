@@ -23,5 +23,5 @@ public class AuthorDTO {
 
     @NotNull
     @Max(120)
-    private int age;
+    private Integer age;
 }
