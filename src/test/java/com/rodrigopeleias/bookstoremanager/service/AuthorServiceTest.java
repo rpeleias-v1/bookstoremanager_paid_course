@@ -4,9 +4,9 @@ import com.rodrigopeleias.bookstoremanager.builder.AuthorDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.dto.AuthorDTO;
 import com.rodrigopeleias.bookstoremanager.entity.Author;
 import com.rodrigopeleias.bookstoremanager.exception.AuthorAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.mapper.AuthorMapper;
 import com.rodrigopeleias.bookstoremanager.repository.AuthorRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,9 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,6 +52,27 @@ public class AuthorServiceTest {
 
         when(authorRepository.findByName(expectedAuthorToCreateDTO.getName())).thenReturn(Optional.of(expectedDuplicatedAuthor));
 
-        Assertions.assertThrows(AuthorAlreadyExistsException.class, () -> authorService.create(expectedAuthorToCreateDTO));
+        assertThrows(AuthorAlreadyExistsException.class, () -> authorService.create(expectedAuthorToCreateDTO));
+    }
+
+    @Test
+    void whenValidNameIsGivenThenReturnAnAuthor() throws AuthorNotFoundException {
+        AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
+
+        when(authorRepository.findByName(expectedFoundAuthorDTO.getName())).thenReturn(Optional.of(expectedFoundAuthor));
+
+        AuthorDTO foundAuthor = authorService.findByName(expectedFoundAuthorDTO.getName());
+
+        assertThat(foundAuthor, is(equalTo(expectedFoundAuthorDTO)));
+    }
+
+    @Test
+    void whenInvalidNameIsGivenThenThrowAnException() {
+        AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+
+        when(authorRepository.findByName(expectedFoundAuthorDTO.getName())).thenReturn(Optional.empty());
+
+        assertThrows(AuthorNotFoundException.class, () -> authorService.findByName(expectedFoundAuthorDTO.getName()));
     }
 }

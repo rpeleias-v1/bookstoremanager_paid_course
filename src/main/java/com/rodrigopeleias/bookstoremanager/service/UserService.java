@@ -4,7 +4,7 @@ import com.rodrigopeleias.bookstoremanager.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.dto.UserDTO;
 import com.rodrigopeleias.bookstoremanager.entity.User;
 import com.rodrigopeleias.bookstoremanager.exception.UserAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.exception.UserNotExistsException;
+import com.rodrigopeleias.bookstoremanager.exception.UserNotFoundException;
 import com.rodrigopeleias.bookstoremanager.mapper.UserMapper;
 import com.rodrigopeleias.bookstoremanager.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class UserService {
         return creationMessage(createdUser);
     }
 
-    public MessageDTO update(Long id, UserDTO userToUpdateDTO) throws UserNotExistsException {
+    public MessageDTO update(Long id, UserDTO userToUpdateDTO) throws UserNotFoundException {
         User foundUser = verifyIfExists(id);
 
         userToUpdateDTO.setId(id);
@@ -40,14 +40,14 @@ public class UserService {
         return updateMessage(updatedUser);
     }
 
-    public void delete(Long id) throws UserNotExistsException {
+    public void delete(Long id) throws UserNotFoundException {
         verifyIfExists(id);
         userRepository.deleteById(id);
     }
 
-    private User verifyIfExists(Long id) throws UserNotExistsException {
+    private User verifyIfExists(Long id) throws UserNotFoundException {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotExistsException(id));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private void verifyIfExists(String email, String username) throws UserAlreadyExistsException {

@@ -2,6 +2,7 @@ package com.rodrigopeleias.bookstoremanager.controller;
 
 import com.rodrigopeleias.bookstoremanager.builder.AuthorDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.dto.AuthorDTO;
+import com.rodrigopeleias.bookstoremanager.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.service.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,4 +74,28 @@ public class AuthorControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void whenGETWithValidNameIsCalledThenOkStatusIsReturned() throws Exception {
+        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+
+        when(authorService.findByName(expectedCreatedAuthorDTO.getName())).thenReturn(expectedCreatedAuthorDTO);
+
+        mockMvc.perform(get(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(expectedCreatedAuthorDTO.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(expectedCreatedAuthorDTO.getName())))
+                .andExpect(jsonPath("$.age", is(expectedCreatedAuthorDTO.getAge())));
+    }
+
+    @Test
+    void whenGETWithInvalidNameIsCalledThenNotFoundStatusIsReturned() throws Exception {
+        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+
+        when(authorService.findByName(expectedCreatedAuthorDTO.getName())).thenThrow(AuthorNotFoundException.class);
+
+        mockMvc.perform(get(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getName())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
