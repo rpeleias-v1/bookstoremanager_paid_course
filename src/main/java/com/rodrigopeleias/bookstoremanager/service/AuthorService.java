@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -38,5 +40,12 @@ public class AuthorService {
         Author foundAuthor = authorRepository.findByName(name)
                 .orElseThrow(() -> new AuthorNotFoundException(name));
         return authorMapper.toDTO(foundAuthor);
+    }
+
+    public List<AuthorDTO> findAll() {
+        return authorRepository.findAll()
+                .stream()
+                .map(authorMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
