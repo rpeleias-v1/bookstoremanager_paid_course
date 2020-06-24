@@ -29,13 +29,6 @@ public class AuthorService {
         return authorMapper.toDTO(createdAuthor);
     }
 
-    private void verifyIfExists(String authorName) throws AuthorAlreadyExistsException {
-        Optional<Author> duplicatedAuthor = authorRepository.findByName(authorName);
-        if (duplicatedAuthor.isPresent()) {
-            throw new AuthorAlreadyExistsException(authorName);
-        }
-    }
-
     public AuthorDTO findByName(String name) throws AuthorNotFoundException {
         Author foundAuthor = authorRepository.findByName(name)
                 .orElseThrow(() -> new AuthorNotFoundException(name));
@@ -47,5 +40,22 @@ public class AuthorService {
                 .stream()
                 .map(authorMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(Long id) throws AuthorNotFoundException {
+        verifyIfExists(id);
+        authorRepository.deleteById(id);
+    }
+
+    private void verifyIfExists(String authorName) throws AuthorAlreadyExistsException {
+        Optional<Author> duplicatedAuthor = authorRepository.findByName(authorName);
+        if (duplicatedAuthor.isPresent()) {
+            throw new AuthorAlreadyExistsException(authorName);
+        }
+    }
+
+    private void verifyIfExists(Long id) throws AuthorNotFoundException {
+        authorRepository.findById(id)
+                .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 }

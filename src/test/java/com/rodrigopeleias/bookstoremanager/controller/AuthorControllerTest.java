@@ -20,7 +20,10 @@ import java.util.Collections;
 
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -113,5 +116,27 @@ public class AuthorControllerTest {
                 .andExpect(jsonPath("$[0].id", is(expectedCreatedAuthorDTO.getId().intValue())))
                 .andExpect(jsonPath("$[0].name", is(expectedCreatedAuthorDTO.getName())))
                 .andExpect(jsonPath("$[0].age", is(expectedCreatedAuthorDTO.getAge())));
+    }
+
+    @Test
+    void whenDELETEWithValidIdIsCalledThenNoContentStatusIsReturned() throws Exception {
+        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+
+        doNothing().when(authorService).delete(expectedCreatedAuthorDTO.getId());
+
+        mockMvc.perform(delete(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void whenDELETEWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
+        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+
+        doThrow(AuthorNotFoundException.class).when(authorService).delete(expectedCreatedAuthorDTO.getId());
+
+        mockMvc.perform(delete(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
