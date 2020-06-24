@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/authors")
@@ -35,5 +36,10 @@ public class AuthorController implements AuthorControllerDocs {
     @GetMapping("/{name}")
     public AuthorDTO findByName(@PathVariable String name) throws AuthorNotFoundException {
         return authorService.findByName(name);
+    }
+
+    @GetMapping
+    public List<AuthorDTO> findAll() {
+        return authorService.findAll();
     }
 }
