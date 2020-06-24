@@ -21,6 +21,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,5 +104,29 @@ public class AuthorServiceTest {
         List<AuthorDTO> foundAuthorsDTO = authorService.findAll();
 
         assertThat(foundAuthorsDTO.size(), is(0));
+    }
+
+    @Test
+    void whenValidAuthorIdIsGivenTheDeleteThisAuthor() throws AuthorNotFoundException {
+        AuthorDTO expectedDeletedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
+
+        Long expectedDeletedAuthorId = expectedDeletedAuthorDTO.getId();
+        doNothing().when(authorRepository).deleteById(expectedDeletedAuthorId);
+        when(authorRepository.findById(expectedDeletedAuthorId)).thenReturn(Optional.of(expectedDeletedAuthor));
+
+        authorService.delete(expectedDeletedAuthor.getId());
+
+        verify(authorRepository, times(1)).findById(expectedDeletedAuthorId);
+        verify(authorRepository, times(1)).deleteById(expectedDeletedAuthorId);
+    }
+
+    @Test
+    void whenInvalidAuthorIsGivenTheDeleteThisAuthor() {
+        Long expectedNotFoundAuthorId = 2L;
+
+        when(authorRepository.findById(expectedNotFoundAuthorId)).thenReturn(Optional.empty());
+
+        assertThrows(AuthorNotFoundException.class, () -> authorService.delete(expectedNotFoundAuthorId));
     }
 }
