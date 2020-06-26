@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -31,6 +33,13 @@ public class PublisherService {
         if (duplicatedPublisher.isPresent()) {
             throw new PublisherAlreadyExistsException(name, code);
         }
+    }
+
+    public List<PublisherDTO> findAll() {
+        return publisherRepository.findAll()
+                .stream()
+                .map(publisherMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
 }
