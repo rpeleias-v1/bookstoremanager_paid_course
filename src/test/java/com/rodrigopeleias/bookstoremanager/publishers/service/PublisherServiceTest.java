@@ -6,13 +6,14 @@ import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
 import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
 import com.rodrigopeleias.bookstoremanager.publishers.mapper.PublisherMapper;
 import com.rodrigopeleias.bookstoremanager.publishers.repository.PublisherRepository;
-import com.rodrigopeleias.bookstoremanager.publishers.service.PublisherService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -57,4 +58,27 @@ public class PublisherServiceTest {
 
         assertThrows(PublisherAlreadyExistsException.class, () -> publisherService.create(expectedPublisherToFindDTO));
     }
+
+    @Test
+    void whenListPublishersIsCalledThenReturnPublishers() {
+        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherToFindDTO);
+
+        when(publisherRepository.findAll()).thenReturn(Collections.singletonList(expectedPublisherToFind));
+
+        List<PublisherDTO> foundPublishersDTO = publisherService.findAll();
+
+        assertThat(foundPublishersDTO.size(), is(1));
+        assertThat(foundPublishersDTO.get(0), is(equalTo(expectedPublisherToFindDTO)));
+    }
+
+    @Test
+    void whenListPublishersIsCalledThenReturnEmptyList() {
+        when(publisherRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
+
+        List<PublisherDTO> foundPublishersDTO = publisherService.findAll();
+
+        assertThat(foundPublishersDTO.size(), is(0));
+    }
+
 }
