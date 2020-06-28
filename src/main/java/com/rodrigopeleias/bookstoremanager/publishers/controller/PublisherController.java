@@ -39,6 +39,11 @@ public class PublisherController implements PublisherControllerDocs {
         return publisherService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public PublisherDTO findById(@PathVariable Long id) throws PublisherNotFoundException {
+        return publisherService.findById(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws PublisherNotFoundException {

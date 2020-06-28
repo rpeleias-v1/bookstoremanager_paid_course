@@ -1,6 +1,5 @@
 package com.rodrigopeleias.bookstoremanager.publishers.controller;
 
-import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.builder.PublisherDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
 import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
@@ -92,6 +91,31 @@ public class PublisherControllerTest {
                 .andExpect(jsonPath("$[0].id", is(expectedPublisherToFindDTO.getId().intValue())))
                 .andExpect(jsonPath("$[0].name", is(expectedPublisherToFindDTO.getName())))
                 .andExpect(jsonPath("$[0].code", is(expectedPublisherToFindDTO.getCode())));
+    }
+
+    @Test
+    void whenGETWithValidNameIsCalledThenOkStatusIsReturned() throws Exception {
+        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+
+        when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenReturn(expectedPublisherToFindDTO);
+
+        mockMvc.perform(get(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToFindDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(expectedPublisherToFindDTO.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(expectedPublisherToFindDTO.getName())))
+                .andExpect(jsonPath("$.code", is(expectedPublisherToFindDTO.getCode())));
+    }
+
+    @Test
+    void whenGETWithInvalidNameIsCalledThenNotFoundStatusIsReturned() throws Exception {
+        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+
+        when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenThrow(PublisherNotFoundException.class);
+        
+        mockMvc.perform(get(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToFindDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -86,6 +86,27 @@ public class PublisherServiceTest {
     }
 
     @Test
+    void whenValidIdIsGivenThenReturnAPublisher() throws PublisherNotFoundException {
+        PublisherDTO expectedPublisherFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherFindDTO);
+
+        when(publisherRepository.findById(expectedPublisherFindDTO.getId())).thenReturn(Optional.of(expectedPublisherToFind));
+
+        PublisherDTO foundPublisherDTO = publisherService.findById(expectedPublisherFindDTO.getId());
+
+        assertThat(expectedPublisherFindDTO, is(equalTo(foundPublisherDTO)));
+    }
+
+    @Test
+    void whenInvalidIdIsGivenThenThrowAnException() {
+        PublisherDTO expectedPublisherFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+
+        when(publisherRepository.findById(expectedPublisherFindDTO.getId())).thenReturn(Optional.empty());
+
+        assertThrows(PublisherNotFoundException.class, () -> publisherService.findById(expectedPublisherFindDTO.getId()));
+    }
+
+    @Test
     void whenValidPublisherIdIsGivenTheDeleteThisPublisher() throws PublisherNotFoundException {
         PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         Publisher expectedDeletedPublisher = publisherMapper.toModel(expectedPublisherToDeleteDTO);
