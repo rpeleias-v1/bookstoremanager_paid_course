@@ -94,17 +94,6 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenGETWithInvalidNameIsCalledThenNotFoundStatusIsReturned() throws Exception {
-        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
-
-        when(authorService.findByName(expectedCreatedAuthorDTO.getName())).thenThrow(AuthorNotFoundException.class);
-
-        mockMvc.perform(get(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getName())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void whenGETListIsCalledThenOkStatusIsReturned() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
 
@@ -127,16 +116,5 @@ public class AuthorControllerTest {
         mockMvc.perform(delete(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void whenDELETEWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
-        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
-
-        doThrow(AuthorNotFoundException.class).when(authorService).delete(expectedCreatedAuthorDTO.getId());
-
-        mockMvc.perform(delete(AUTHOR_API_URL_PATH + "/" + expectedCreatedAuthorDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 }

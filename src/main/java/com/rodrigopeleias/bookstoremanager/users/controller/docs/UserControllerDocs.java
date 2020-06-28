@@ -21,19 +21,19 @@ public interface UserControllerDocs {
             @ApiResponse(code = 201, message = "Success user creation"),
             @ApiResponse(code = 400, message = "Missing required fileds, wrong field range value or user already registered on system")
     })
-    MessageDTO create(UserDTO userToSaveDTO) throws UserAlreadyExistsException;
+    MessageDTO create(UserDTO userToSaveDTO);
 
     @ApiOperation(value = "User update operation")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success user update"),
             @ApiResponse(code = 404, message = "User with informed ID not found in the system")
     })
-    MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserAlreadyExistsException, UserNotFoundException;
+    MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO);
 
     @ApiOperation(value = "Delete update operation")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Success user deletion"),
             @ApiResponse(code = 404, message = "User with informed ID not found in the system")
     })
-    void delete(Long id) throws UserNotFoundException;
+    void delete(Long id);
 }

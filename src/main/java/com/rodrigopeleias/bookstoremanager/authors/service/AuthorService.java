@@ -22,14 +22,14 @@ public class AuthorService {
 
     private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
 
-    public AuthorDTO create(AuthorDTO authorDTO) throws AuthorAlreadyExistsException {
+    public AuthorDTO create(AuthorDTO authorDTO) {
         verifyIfExists(authorDTO.getName());
         Author authorToCreate = authorMapper.toModel(authorDTO);
         Author createdAuthor = authorRepository.save(authorToCreate);
         return authorMapper.toDTO(createdAuthor);
     }
 
-    public AuthorDTO findByName(String name) throws AuthorNotFoundException {
+    public AuthorDTO findByName(String name) {
         Author foundAuthor = authorRepository.findByName(name)
                 .orElseThrow(() -> new AuthorNotFoundException(name));
         return authorMapper.toDTO(foundAuthor);
@@ -42,19 +42,19 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(Long id) throws AuthorNotFoundException {
+    public void delete(Long id) {
         verifyIfExists(id);
         authorRepository.deleteById(id);
     }
 
-    private void verifyIfExists(String authorName) throws AuthorAlreadyExistsException {
+    private void verifyIfExists(String authorName) {
         Optional<Author> duplicatedAuthor = authorRepository.findByName(authorName);
         if (duplicatedAuthor.isPresent()) {
             throw new AuthorAlreadyExistsException(authorName);
         }
     }
 
-    private void verifyIfExists(Long id) throws AuthorNotFoundException {
+    private void verifyIfExists(Long id) {
         authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }

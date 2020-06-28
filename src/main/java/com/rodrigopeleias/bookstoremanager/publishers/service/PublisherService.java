@@ -22,7 +22,7 @@ public class PublisherService {
 
     private final PublisherRepository publisherRepository;
 
-    public PublisherDTO create(PublisherDTO publisherDTO) throws PublisherAlreadyExistsException {
+    public PublisherDTO create(PublisherDTO publisherDTO) {
         verifyIfExists(publisherDTO.getName(), publisherDTO.getCode());
         Publisher publisherToCreate = publisherMapper.toModel(publisherDTO);
         Publisher createdPublisher = publisherRepository.save(publisherToCreate);
@@ -36,7 +36,7 @@ public class PublisherService {
                 .collect(Collectors.toList());
     }
 
-    public PublisherDTO findById(Long id) throws PublisherNotFoundException {
+    public PublisherDTO findById(Long id) {
         return publisherRepository.findById(id)
                 .map(publisherMapper::toDTO)
                 .orElseThrow(() -> new PublisherNotFoundException(id));
@@ -47,12 +47,12 @@ public class PublisherService {
         publisherRepository.deleteById(id);
     }
 
-    private void verifyIfExists(Long id) throws PublisherNotFoundException {
+    private void verifyIfExists(Long id) {
         publisherRepository.findById(id)
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
-    private void verifyIfExists(String name, String code) throws PublisherAlreadyExistsException {
+    private void verifyIfExists(String name, String code) {
         Optional<Publisher> duplicatedPublisher = publisherRepository.findByNameOrCode(name, code);
         if (duplicatedPublisher.isPresent()) {
             throw new PublisherAlreadyExistsException(name, code);

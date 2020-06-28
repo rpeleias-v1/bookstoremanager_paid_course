@@ -30,12 +30,12 @@ public class AuthorController implements AuthorControllerDocs {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorDTO create(@RequestBody @Valid AuthorDTO authorDTO) throws AuthorAlreadyExistsException {
+    public AuthorDTO create(@RequestBody @Valid AuthorDTO authorDTO) {
         return authorService.create(authorDTO);
     }
 
     @GetMapping("/{name}")
-    public AuthorDTO findByName(@PathVariable String name) throws AuthorNotFoundException {
+    public AuthorDTO findByName(@PathVariable String name) {
         return authorService.findByName(name);
     }
 
@@ -46,7 +46,7 @@ public class AuthorController implements AuthorControllerDocs {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws AuthorNotFoundException {
+    public void delete(@PathVariable Long id) {
         authorService.delete(id);
     }
 }

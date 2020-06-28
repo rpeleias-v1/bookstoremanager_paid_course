@@ -21,14 +21,14 @@ public class UserService {
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    public MessageDTO create(UserDTO userToCreateDTO) throws UserAlreadyExistsException {
+    public MessageDTO create(UserDTO userToCreateDTO) {
         verifyIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
         User userToCreate = userMapper.toModel(userToCreateDTO);
         User createdUser = userRepository.save(userToCreate);
         return creationMessage(createdUser);
     }
 
-    public MessageDTO update(Long id, UserDTO userToUpdateDTO) throws UserNotFoundException {
+    public MessageDTO update(Long id, UserDTO userToUpdateDTO) {
         User foundUser = verifyIfExists(id);
 
         userToUpdateDTO.setId(id);
@@ -40,17 +40,17 @@ public class UserService {
         return updateMessage(updatedUser);
     }
 
-    public void delete(Long id) throws UserNotFoundException {
+    public void delete(Long id) {
         verifyIfExists(id);
         userRepository.deleteById(id);
     }
 
-    private User verifyIfExists(Long id) throws UserNotFoundException {
+    private User verifyIfExists(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    private void verifyIfExists(String email, String username) throws UserAlreadyExistsException {
+    private void verifyIfExists(String email, String username) {
         Optional<User> foundUser = userRepository.findByEmailOrUsername(email, username);
         if (foundUser.isPresent()) {
             throw new UserAlreadyExistsException(email, username);
