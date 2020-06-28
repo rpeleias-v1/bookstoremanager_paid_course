@@ -4,6 +4,7 @@ import com.rodrigopeleias.bookstoremanager.publishers.builder.PublisherDTOBuilde
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
 import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
 import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.mapper.PublisherMapper;
 import com.rodrigopeleias.bookstoremanager.publishers.repository.PublisherRepository;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -79,6 +83,30 @@ public class PublisherServiceTest {
         List<PublisherDTO> foundPublishersDTO = publisherService.findAll();
 
         assertThat(foundPublishersDTO.size(), is(0));
+    }
+
+    @Test
+    void whenValidPublisherIdIsGivenTheDeleteThisPublisher() throws PublisherNotFoundException {
+        PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        Publisher expectedDeletedPublisher = publisherMapper.toModel(expectedPublisherToDeleteDTO);
+
+        Long expectedDeletedPublisherId = expectedPublisherToDeleteDTO.getId();
+        doNothing().when(publisherRepository).deleteById(expectedDeletedPublisherId);
+        when(publisherRepository.findById(expectedDeletedPublisherId)).thenReturn(Optional.of(expectedDeletedPublisher));
+
+        publisherService.delete(expectedPublisherToDeleteDTO.getId());
+
+        verify(publisherRepository, times(1)).findById(expectedDeletedPublisherId);
+        verify(publisherRepository, times(1)).deleteById(expectedDeletedPublisherId);
+    }
+
+    @Test
+    void whenInvalidPublisherIsGivenThenThrowAnException() {
+        Long expectedNotFoundPublisherId = 2L;
+
+        when(publisherRepository.findById(expectedNotFoundPublisherId)).thenReturn(Optional.empty());
+
+        assertThrows(PublisherNotFoundException.class, () -> publisherService.delete(expectedNotFoundPublisherId));
     }
 
 }

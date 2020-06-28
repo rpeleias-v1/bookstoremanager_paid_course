@@ -1,7 +1,9 @@
 package com.rodrigopeleias.bookstoremanager.publishers.controller;
 
+import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.builder.PublisherDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
+import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.service.PublisherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,10 @@ import java.util.Collections;
 
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -89,4 +94,25 @@ public class PublisherControllerTest {
                 .andExpect(jsonPath("$[0].code", is(expectedPublisherToFindDTO.getCode())));
     }
 
+    @Test
+    void whenDELETEWithValidIdIsCalledThenNoContentStatusIsReturned() throws Exception {
+        PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+
+        doNothing().when(publisherService).delete(expectedPublisherToDeleteDTO.getId());
+
+        mockMvc.perform(delete(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToDeleteDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void whenDELETEWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
+        PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+
+        doThrow(PublisherNotFoundException.class).when(publisherService).delete(expectedPublisherToDeleteDTO.getId());
+
+        mockMvc.perform(delete(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToDeleteDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
