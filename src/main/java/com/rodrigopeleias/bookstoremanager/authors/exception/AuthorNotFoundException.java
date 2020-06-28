@@ -1,10 +1,8 @@
 package com.rodrigopeleias.bookstoremanager.authors.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import javax.persistence.EntityNotFoundException;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class AuthorNotFoundException extends Exception{
+public class AuthorNotFoundException extends EntityNotFoundException {
 
     public AuthorNotFoundException(String name) {
         super(String.format("Author with name %s not exists!", name));

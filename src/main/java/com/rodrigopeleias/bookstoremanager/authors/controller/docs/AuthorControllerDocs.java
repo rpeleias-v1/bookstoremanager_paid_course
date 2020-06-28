@@ -18,14 +18,14 @@ public interface AuthorControllerDocs {
             @ApiResponse(code = 201, message = "Success author creation"),
             @ApiResponse(code = 400, message = "Missing required fileds, wrong field range value or author already registered on system")
     })
-    AuthorDTO create(AuthorDTO authorDTO) throws AuthorAlreadyExistsException;
+    AuthorDTO create(AuthorDTO authorDTO);
 
     @ApiOperation(value = "Find author by name operation")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success author found"),
             @ApiResponse(code = 404, message = "Author not found error code")
     })
-    AuthorDTO findByName(String name) throws AuthorNotFoundException;
+    AuthorDTO findByName(String name);
 
 
     @ApiOperation(value = "List all registered authors")
@@ -39,5 +39,5 @@ public interface AuthorControllerDocs {
             @ApiResponse(code = 204, message = "Success author deleted"),
             @ApiResponse(code = 404, message = "Author not found error code")
     })
-    void delete(Long id) throws AuthorNotFoundException;
+    void delete(Long id);
 }

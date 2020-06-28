@@ -38,7 +38,7 @@ public class AuthorServiceTest {
     private AuthorService authorService;
 
     @Test
-    void whenNewAuthorIsInformedThenItShouldBeCreated() throws AuthorAlreadyExistsException {
+    void whenNewAuthorIsInformedThenItShouldBeCreated() {
         AuthorDTO expectedAuthorToCreateDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
         Author expectedCreatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
 
@@ -61,7 +61,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidNameIsGivenThenReturnAnAuthor() throws AuthorNotFoundException {
+    void whenValidNameIsGivenThenReturnAnAuthor(){
         AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
         Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
@@ -107,7 +107,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidAuthorIdIsGivenTheDeleteThisAuthor() throws AuthorNotFoundException {
+    void whenValidAuthorIdIsGivenTheDeleteThisAuthor(){
         AuthorDTO expectedDeletedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
         Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
 
