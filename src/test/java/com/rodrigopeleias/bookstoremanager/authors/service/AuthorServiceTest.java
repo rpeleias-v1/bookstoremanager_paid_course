@@ -122,7 +122,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenInvalidAuthorIsGivenTheDeleteThisAuthor() {
+    void whenInvalidAuthorIsGivenThenThrowAnException() {
         Long expectedNotFoundAuthorId = 2L;
 
         when(authorRepository.findById(expectedNotFoundAuthorId)).thenReturn(Optional.empty());
