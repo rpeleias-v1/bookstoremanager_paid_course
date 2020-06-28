@@ -46,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenNewUserIsInformedThenItShouldBeCreated() throws UserAlreadyExistsException {
+    void whenNewUserIsInformedThenItShouldBeCreated() {
         UserDTO expectedCreatedUserDTO = userDTOBuilder.buildUserDTO();
         User expectedCreatedUser = userMapper.toModel(expectedCreatedUserDTO);
         String expectedCreationMessage = "Username rodrigo with ID 1 successfully created";
@@ -70,7 +70,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUSerIsInformedThenUpdateThisUser() throws UserNotFoundException {
+    void whenExistingUSerIsInformedThenUpdateThisUser(){
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
@@ -96,7 +96,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenValidUserIsInformedThenDeleteThisUser() throws UserNotFoundException {
+    void whenValidUserIsInformedThenDeleteThisUser() {
         UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
         User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDTO);
 

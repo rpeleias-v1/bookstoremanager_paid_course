@@ -96,20 +96,6 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPUTIsCalledWithInvalidUserThenNotFoundStatusIsInformed() throws Exception {
-        UserDTO userDTO = userDTOBuilder.buildUserDTO();
-        userDTO.setId(INVALID_USER_ID);
-        userDTO.setName("Rodrigo updated");
-
-        when(userService.update(userDTO.getId(), userDTO)).thenThrow(UserNotFoundException.class);
-
-        mockMvc.perform(put(USER_API_URL_PATH + "/" + userDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(userDTO)))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void whenDELETEIsCalledThenNoContentIsInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
 
@@ -118,16 +104,5 @@ public class UserControllerTest {
         mockMvc.perform(delete(USER_API_URL_PATH + "/" + userDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void whenDELETEIsCalledWithInvalidUserThenNotFoundStatusIsInformed() throws Exception {
-        UserDTO userDTO = userDTOBuilder.buildUserDTO();
-
-        doThrow(UserNotFoundException.class).when(userService).delete(userDTO.getId());
-
-        mockMvc.perform(delete(USER_API_URL_PATH + "/" + userDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 }

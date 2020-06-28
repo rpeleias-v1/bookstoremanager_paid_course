@@ -29,19 +29,19 @@ public class UserController implements UserControllerDocs {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageDTO create(@RequestBody @Valid UserDTO userToSaveDTO) throws UserAlreadyExistsException {
+    public MessageDTO create(@RequestBody @Valid UserDTO userToSaveDTO){
         return userService.create(userToSaveDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) throws UserNotFoundException {
+    public MessageDTO update(@PathVariable Long id, @RequestBody @Valid UserDTO userToUpdateDTO) {
         return userService.update(id, userToUpdateDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws UserNotFoundException {
+    public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
 }
