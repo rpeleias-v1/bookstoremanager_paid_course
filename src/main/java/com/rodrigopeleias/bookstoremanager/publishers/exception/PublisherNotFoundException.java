@@ -11,6 +11,6 @@ public class PublisherNotFoundException extends Exception{
     }
 
     public PublisherNotFoundException(Long id) {
-        super(String.format("Publisher with id %s or code %%s not exists!", id));
+        super(String.format("Publisher with id %s not exists!", id));
     }
 }
