@@ -94,7 +94,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenGETWithValidNameIsCalledThenOkStatusIsReturned() throws Exception {
+    void whenGETWithValidIdIsCalledThenOkStatusIsReturned() throws Exception {
         PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenReturn(expectedPublisherToFindDTO);
@@ -108,11 +108,11 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenGETWithInvalidNameIsCalledThenNotFoundStatusIsReturned() throws Exception {
+    void whenGETWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
         PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenThrow(PublisherNotFoundException.class);
-        
+
         mockMvc.perform(get(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToFindDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
