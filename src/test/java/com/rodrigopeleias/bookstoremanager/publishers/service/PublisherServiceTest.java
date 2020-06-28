@@ -39,7 +39,7 @@ public class PublisherServiceTest {
     private PublisherService publisherService;
 
     @Test
-    void whenNewPublisherIsInformedThenItShouldBeCreated() throws PublisherAlreadyExistsException {
+    void whenNewPublisherIsInformedThenItShouldBeCreated() {
         PublisherDTO expectedPublisherToCreateDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         Publisher expectedPublisherToCreate = publisherMapper.toModel(expectedPublisherToCreateDTO);
 
@@ -86,7 +86,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenValidIdIsGivenThenReturnAPublisher() throws PublisherNotFoundException {
+    void whenValidIdIsGivenThenReturnAPublisher() {
         PublisherDTO expectedPublisherFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherFindDTO);
 
@@ -107,7 +107,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenValidPublisherIdIsGivenTheDeleteThisPublisher() throws PublisherNotFoundException {
+    void whenValidPublisherIdIsGivenTheDeleteThisPublisher() {
         PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         Publisher expectedDeletedPublisher = publisherMapper.toModel(expectedPublisherToDeleteDTO);
 

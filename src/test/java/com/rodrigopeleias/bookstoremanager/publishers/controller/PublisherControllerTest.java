@@ -108,17 +108,6 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenGETWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
-        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
-
-        when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenThrow(PublisherNotFoundException.class);
-
-        mockMvc.perform(get(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToFindDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void whenDELETEWithValidIdIsCalledThenNoContentStatusIsReturned() throws Exception {
         PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
@@ -127,16 +116,5 @@ public class PublisherControllerTest {
         mockMvc.perform(delete(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToDeleteDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void whenDELETEWithInvalidIdIsCalledThenNotFoundStatusIsReturned() throws Exception {
-        PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
-
-        doThrow(PublisherNotFoundException.class).when(publisherService).delete(expectedPublisherToDeleteDTO.getId());
-
-        mockMvc.perform(delete(PUBLISHER_API_URL_PATH + "/" + expectedPublisherToDeleteDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 }

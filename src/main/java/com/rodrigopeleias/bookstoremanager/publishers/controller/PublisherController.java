@@ -30,7 +30,7 @@ public class PublisherController implements PublisherControllerDocs {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PublisherDTO create(@RequestBody @Valid PublisherDTO publisherDTO) throws PublisherAlreadyExistsException {
+    public PublisherDTO create(@RequestBody @Valid PublisherDTO publisherDTO) {
         return publisherService.create(publisherDTO);
     }
 
@@ -40,13 +40,13 @@ public class PublisherController implements PublisherControllerDocs {
     }
 
     @GetMapping("/{id}")
-    public PublisherDTO findById(@PathVariable Long id) throws PublisherNotFoundException {
+    public PublisherDTO findById(@PathVariable Long id) {
         return publisherService.findById(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws PublisherNotFoundException {
+    public void delete(@PathVariable Long id) {
         publisherService.delete(id);
     }
 }
