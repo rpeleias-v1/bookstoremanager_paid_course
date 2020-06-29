@@ -6,8 +6,7 @@ install: true
 addons:
   sonarcloud:
     organization: $SONAR_ORGANIZATION
-    token:
-      secure: ${SONAR_TOKEN}
+    token: ${SONAR_TOKEN}
 script:
   - mvn sonar:sonar -P sonar
 cache:
