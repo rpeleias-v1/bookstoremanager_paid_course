@@ -2,8 +2,6 @@ package com.rodrigopeleias.bookstoremanager.users.controller.docs;
 
 import com.rodrigopeleias.bookstoremanager.users.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.users.dto.UserDTO;
-import com.rodrigopeleias.bookstoremanager.users.exception.UserAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.users.exception.UserNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

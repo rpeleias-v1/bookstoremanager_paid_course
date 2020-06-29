@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorService {
 
-    private final AuthorRepository authorRepository;
+    private final static AuthorMapper authorMapper = AuthorMapper.INSTANCE;
 
-    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
+    private final AuthorRepository authorRepository;
 
     public AuthorDTO create(AuthorDTO authorDTO) {
         verifyIfExists(authorDTO.getName());

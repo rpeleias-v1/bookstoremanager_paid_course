@@ -1,8 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.publishers.controller.docs;
 
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
-import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

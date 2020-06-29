@@ -3,8 +3,6 @@ package com.rodrigopeleias.bookstoremanager.users.controller;
 import com.rodrigopeleias.bookstoremanager.users.controller.docs.UserControllerDocs;
 import com.rodrigopeleias.bookstoremanager.users.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.users.dto.UserDTO;
-import com.rodrigopeleias.bookstoremanager.users.exception.UserAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.users.exception.UserNotFoundException;
 import com.rodrigopeleias.bookstoremanager.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +27,7 @@ public class UserController implements UserControllerDocs {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageDTO create(@RequestBody @Valid UserDTO userToSaveDTO){
+    public MessageDTO create(@RequestBody @Valid UserDTO userToSaveDTO) {
         return userService.create(userToSaveDTO);
     }
 
