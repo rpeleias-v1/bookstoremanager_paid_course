@@ -17,9 +17,9 @@ import java.util.Optional;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final static UserMapper userMapper = UserMapper.INSTANCE;
 
-    private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final UserRepository userRepository;
 
     public MessageDTO create(UserDTO userToCreateDTO) {
         verifyIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());

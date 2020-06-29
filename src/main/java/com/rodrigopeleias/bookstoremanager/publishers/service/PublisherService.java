@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PublisherService {
 
-    private final PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
+    private final static PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
 
     private final PublisherRepository publisherRepository;
 
@@ -42,7 +42,7 @@ public class PublisherService {
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
-    public void delete(Long id) throws PublisherNotFoundException {
+    public void delete(Long id) {
         verifyIfExists(id);
         publisherRepository.deleteById(id);
     }

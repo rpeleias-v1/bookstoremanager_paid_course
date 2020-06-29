@@ -2,8 +2,6 @@ package com.rodrigopeleias.bookstoremanager.publishers.controller;
 
 import com.rodrigopeleias.bookstoremanager.publishers.controller.docs.PublisherControllerDocs;
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
-import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.service.PublisherService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

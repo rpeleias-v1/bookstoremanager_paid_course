@@ -2,8 +2,6 @@ package com.rodrigopeleias.bookstoremanager.authors.controller;
 
 import com.rodrigopeleias.bookstoremanager.authors.controller.docs.AuthorControllerDocs;
 import com.rodrigopeleias.bookstoremanager.authors.dto.AuthorDTO;
-import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorAlreadyExistsException;
-import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.authors.service.AuthorService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,11 +5,11 @@ jdk: openjdk14
 install: true
 addons:
   sonarcloud:
-    organization: "rpeleias-training"
+    organization: $SONAR_ORGANIZATION
     token:
       secure: $SONAR_TOKEN
 script:
-  - mvn clean verify sonar:sonar -Pcoverage
+  - mvn sonar:sonar -P sonar
 cache:
   directories:
     - $HOME/.m2
