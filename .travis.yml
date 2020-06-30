@@ -6,13 +6,10 @@ install: true
 addons:
   sonarcloud:
     organization: $SONAR_ORGANIZATION
-    token: ${SONAR_TOKEN}
+    token: $SONAR_TOKEN
 script:
   - mvn clean package sonar:sonar -P sonar
 cache:
   directories:
     - $HOME/.m2
     - $HOME/.sonar/cache
-branches:
-  only:
-    - master
