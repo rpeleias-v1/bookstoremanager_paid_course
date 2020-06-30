@@ -13,7 +13,3 @@ cache:
   directories:
     - $HOME/.m2
     - $HOME/.sonar/cache
-deploy:
-  provider: heroku
-  api_key: $HEROKU_API_KEY
-  app: bookstoremanager-dev
