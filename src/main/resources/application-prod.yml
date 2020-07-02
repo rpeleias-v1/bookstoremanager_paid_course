@@ -16,3 +16,7 @@ logging:
     br:
       com:
         rodrigopeleias: INFO
+
+jwt:
+  secret: bookstoremanager
+  validity: 18000
