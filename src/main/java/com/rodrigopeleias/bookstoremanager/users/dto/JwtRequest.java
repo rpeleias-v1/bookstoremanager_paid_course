@@ -1,13 +1,17 @@
-package com.rodrigopeleias.bookstoremanager.config.jwt.dto;
+package com.rodrigopeleias.bookstoremanager.users.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtRequest {
 
     @NotNull

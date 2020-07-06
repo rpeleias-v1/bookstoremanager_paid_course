@@ -1,5 +1,8 @@
 package com.rodrigopeleias.bookstoremanager.users.controller.docs;
 
+
+import com.rodrigopeleias.bookstoremanager.users.dto.JwtRequest;
+import com.rodrigopeleias.bookstoremanager.users.dto.JwtResponse;
 import com.rodrigopeleias.bookstoremanager.users.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.users.dto.UserDTO;
 import io.swagger.annotations.Api;
@@ -20,6 +23,13 @@ public interface UserControllerDocs {
             @ApiResponse(code = 400, message = "Missing required fileds, wrong field range value or user already registered on system")
     })
     MessageDTO create(UserDTO userToSaveDTO);
+
+    @ApiOperation(value = "User authentication operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success user authenticated"),
+            @ApiResponse(code = 440, message = "User not found")
+    })
+    JwtResponse createAuthenticationToken(JwtRequest jwtRequest);
 
     @ApiOperation(value = "User update operation")
     @ApiResponses(value = {

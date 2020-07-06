@@ -1,4 +1,4 @@
-package com.rodrigopeleias.bookstoremanager.config.jwt.service;
+package com.rodrigopeleias.bookstoremanager.users.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,18 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-//TODO change Date to javatime API
-//TODO class refactoring: Sngle REsponsibility Principle
-//TODO unit testing!!!
-
 @Component
 public class JwtTokenManager {
 
-    @Value("${jwt.validity}")
-    private long jwtTokenValidity;
+    private final long jwtTokenValidity;
+    private final String secret;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    public JwtTokenManager(@Value("${jwt.validity}") Long jwtTokenValidity, @Value("${jwt.secret}") String secret) {
+        this.jwtTokenValidity = jwtTokenValidity;
+        this.secret = secret;
+    }
 
     public String getUsernameFromToken(String token) {
         return getClaimForToken(token, Claims::getSubject);

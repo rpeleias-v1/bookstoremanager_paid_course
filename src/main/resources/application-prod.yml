@@ -10,6 +10,9 @@ spring:
     properties:
       hibernate:
         format_sql: false
+  h2:
+    console:
+      enabled: false
 
 logging:
   level:

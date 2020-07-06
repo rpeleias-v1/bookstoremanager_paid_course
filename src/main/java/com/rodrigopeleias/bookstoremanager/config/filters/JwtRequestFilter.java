@@ -1,8 +1,7 @@
-package com.rodrigopeleias.bookstoremanager.config.jwt.filters;
+package com.rodrigopeleias.bookstoremanager.config.filters;
 
-import com.rodrigopeleias.bookstoremanager.config.jwt.service.JwtTokenManager;
-import com.rodrigopeleias.bookstoremanager.config.jwt.service.JwtUserDetailsService;
-import lombok.AllArgsConstructor;
+import com.rodrigopeleias.bookstoremanager.users.service.AuthenticationService;
+import com.rodrigopeleias.bookstoremanager.users.service.JwtTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,12 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final JwtUserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
-    private final JwtTokenManager jwtTokenManager;
+    @Autowired
+    private JwtTokenManager jwtTokenManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = authenticationService.loadUserByUsername(username);
         if (jwtTokenManager.validateToken(jwtToken, userDetails)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());

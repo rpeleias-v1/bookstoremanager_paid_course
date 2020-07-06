@@ -1,4 +1,4 @@
-package com.rodrigopeleias.bookstoremanager.config.jwt.dto;
+package com.rodrigopeleias.bookstoremanager.users.dto;
 
 import lombok.Builder;
 import lombok.Getter;
