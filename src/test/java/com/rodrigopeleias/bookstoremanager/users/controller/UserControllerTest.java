@@ -1,9 +1,12 @@
 package com.rodrigopeleias.bookstoremanager.users.controller;
 
+import com.rodrigopeleias.bookstoremanager.users.builder.JwtRequestBuilder;
 import com.rodrigopeleias.bookstoremanager.users.builder.UserDTOBuilder;
+import com.rodrigopeleias.bookstoremanager.users.dto.JwtRequest;
+import com.rodrigopeleias.bookstoremanager.users.dto.JwtResponse;
 import com.rodrigopeleias.bookstoremanager.users.dto.MessageDTO;
 import com.rodrigopeleias.bookstoremanager.users.dto.UserDTO;
-import com.rodrigopeleias.bookstoremanager.users.exception.UserNotFoundException;
+import com.rodrigopeleias.bookstoremanager.users.service.AuthenticationService;
 import com.rodrigopeleias.bookstoremanager.users.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +23,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,13 +41,19 @@ public class UserControllerTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private AuthenticationService authenticationService;
+
     @InjectMocks
     private UserController userController;
 
     private UserDTOBuilder userDTOBuilder;
 
+    private JwtRequestBuilder jwtRequestBuilder;
+
     @BeforeEach
     void setUp() {
+        jwtRequestBuilder = JwtRequestBuilder.builder().build();
         userDTOBuilder = UserDTOBuilder.builder().build();
         mockMvc = MockMvcBuilders.standaloneSetup(userController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
@@ -54,7 +62,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledThenCreatedStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledToCreateUserThenCreatedStatusIsInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         String expectedCreationMessage = "Username rodrigo with ID 1 successfully created";
         MessageDTO expectedCreationMessageDTO = MessageDTO.builder().message(expectedCreationMessage).build();
@@ -69,13 +77,38 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledWithoutRequiredFieldThenBadRequestStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledToCreateUserWithoutRequiredFieldThenBadRequestStatusIsInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         userDTO.setUsername(null);
 
         mockMvc.perform(post(USER_API_URL_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void whenPOSTIsCalledToAuthenticateUserThenOkStatusIsInformed() throws Exception {
+        JwtRequest jwtRequest = jwtRequestBuilder.buildJwtRequest();
+        JwtResponse expectedJwtToken = JwtResponse.builder().jwtToken("testToken").build();
+
+        when(authenticationService.createAuthenticationToken(jwtRequest)).thenReturn(expectedJwtToken);
+
+        mockMvc.perform(post(USER_API_URL_PATH + "/authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(jwtRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.jwtToken", is(expectedJwtToken.getJwtToken())));
+    }
+
+    @Test
+    void whenPOSTIsCalledToAuthenticateUserWithoutPasswordThenBadRequestIsInformed() throws Exception {
+        JwtRequest jwtRequest = jwtRequestBuilder.buildJwtRequest();
+        jwtRequest.setPassword(null);
+
+        mockMvc.perform(post(USER_API_URL_PATH + "/authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(jwtRequest)))
                 .andExpect(status().isBadRequest());
     }
 

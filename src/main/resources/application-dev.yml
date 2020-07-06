@@ -10,9 +10,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  h2:
+    console:
+      enabled: true
 
 logging:
   level:
     br:
       com:
         rodrigopeleias: DEBUG
+
+jwt:
+  secret: bookstoremanager
+  validity: 18000

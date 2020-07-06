@@ -3,6 +3,7 @@ package com.rodrigopeleias.bookstoremanager.users.entity;
 import com.rodrigopeleias.bookstoremanager.entity.Auditable;
 import com.rodrigopeleias.bookstoremanager.books.entity.Book;
 import com.rodrigopeleias.bookstoremanager.users.enums.Gender;
+import com.rodrigopeleias.bookstoremanager.users.enums.Role;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -39,10 +40,10 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -51,4 +52,8 @@ public class User extends Auditable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private List<Book> books;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role;
 }
