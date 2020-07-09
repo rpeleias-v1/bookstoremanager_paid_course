@@ -1,0 +1,247 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Book Professional API",
+		"_postman_id": "28fd0039-0034-87e0-2a52-b63a24ac2160",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"description": "",
+			"item": [
+				{
+					"name": "CreateUser",
+					"request": {
+						"url": "http://localhost:8080/api/v1/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Rodrigo Admin\",\n\t\"age\": 32,\n\t\"email\": \"rodrigo.peleias@hotmail.com\",\n\t\"gender\": \"MALE\",\n\t\"username\": \"rodrigo\",\n\t\"password\": \"123456\",\n\t\"birthdate\": \"23/03/1988\",\n\t\"role\": \"ADMIN\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"url": "http://localhost:8080/api/v1/users/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Rodrigo Teste\",\n\t\"age\": 32,\n\t\"email\": \"rodrigo.peleias@gmail.com\",\n\t\"gender\": \"MALE\",\n\t\"username\": \"rodrigo\",\n\t\"password\": \"123456\",\n\t\"birthdate\": \"23/03/1988\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"url": "http://localhost:8080/api/v1/users/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate User",
+					"request": {
+						"url": "http://localhost:8080/api/v1/users/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"rodrigo\",\n\t\"password\": \"123456\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"description": "",
+			"item": [
+				{
+					"name": "Create authors",
+					"request": {
+						"url": "http://localhost:8080/api/v1/authors",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvYWRtaW4iLCJleHAiOjE1OTM5ODk3MzIsImlhdCI6MTU5Mzk3MTczMn0.fCr5xoFjNh992tIEj_Gsuc-vbnylMSkvntlXNbpxYFW7lOMmRxClMqBakmGUibDTsCpj41f89g6LNoSHFWPQCA",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Rodrigo Peleias\",\n\t\"age\": 32\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Find Author By Name",
+					"request": {
+						"url": "http://localhost:8080/api/v1/authors/Rodrigo Peleias",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List authors",
+					"request": {
+						"url": "http://localhost:8080/api/v1/authors",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete author by Id",
+					"request": {
+						"url": "http://localhost:8080/api/v1/authors/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publishers",
+			"description": "",
+			"item": [
+				{
+					"name": "Craete publisher",
+					"request": {
+						"url": "http://localhost:8080/api/v1/publishers",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvYWRtaW4iLCJleHAiOjE1OTQwMTMyMDEsImlhdCI6MTU5Mzk5NTIwMX0.riaGKcUOxJw8YbABnk2RtijIGlP-XLY6eMueYKZWNKBMs0cr41nph_UZ88rKHomHhJSoC6Y37UgNhTUHa75ZKg",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Rodrigo Peleias\",\n\t\"code\": \"PUB2020\",\n\t\"foundationDate\": \"23/03/1988\"\n}\t"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List publishers",
+					"request": {
+						"url": "http://localhost:8080/api/v1/publishers",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete pubisher by ID",
+					"request": {
+						"url": "http://localhost:8080/api/v1/publishers/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Find publisher by ID",
+					"request": {
+						"url": "http://localhost:8080/api/v1/publishers/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Books",
+					"request": {
+						"url": "http://localhost:8080/api/v1/books",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0MjMwNDA3LCJpYXQiOjE1OTQyMTI0MDd9.mxyNfJvE-DwiQAQ6IFgntN3oPlz2aiROS9f7g6Rrt5tNoD5Peay4g8U6c6C2059MijFBhebEs_4QOu23Wa9wFw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Spring Boot Professional 123\",\n\t\"isbn\": \"978-3-16-148410-0\",\n\t\"publisher\": {\n\t\t\"name\": \"Rodrigo Peleias\",\n\t\t\"code\": \"PUB2020\",\n\t\t\"foundationDate\": \"23/03/1988\"\n\t},\n\t\"author\": {\n\t\t\"name\": \"Rodrigo Peleias\",\n\t\t\"age\": 32\n\t},\n\t\"pages\": 100,\n\t\"chapters\": 10\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
