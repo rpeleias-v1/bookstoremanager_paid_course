@@ -28,6 +28,22 @@ public class PublisherService {
         Publisher createdPublisher = publisherRepository.save(publisherToCreate);
         return publisherMapper.toDTO(createdPublisher);
     }
+    
+    public Publisher updateIfExists(PublisherDTO publisherDTO) {
+        Optional<Publisher> optExistingPublisher = publisherRepository.findByNameOrCode(publisherDTO.getName(), publisherDTO.getCode());
+        if (optExistingPublisher.isPresent()) {
+            return update(publisherDTO, optExistingPublisher.get());
+        }
+        PublisherDTO createdPubisherDTO = create(publisherDTO);
+        return publisherMapper.toModel(createdPubisherDTO);
+    }
+
+    private Publisher update(PublisherDTO publisherDTO, Publisher existingPublisher) {
+        existingPublisher.setName(publisherDTO.getName());
+        existingPublisher.setCode(publisherDTO.getCode());
+        existingPublisher.setFoundationDate(publisherDTO.getFoundationDate());
+        return existingPublisher;
+    }
 
     public List<PublisherDTO> findAll() {
         return publisherRepository.findAll()

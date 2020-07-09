@@ -6,6 +6,7 @@ import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
 import com.rodrigopeleias.bookstoremanager.users.entity.User;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,10 +28,10 @@ public class Book extends Auditable {
     @Column(nullable = false)
     private String isbn;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Publisher publisher;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Author author;
 
     @ManyToOne

@@ -2,7 +2,6 @@ package com.rodrigopeleias.bookstoremanager.authors.controller;
 
 import com.rodrigopeleias.bookstoremanager.authors.builder.AuthorDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.authors.dto.AuthorDTO;
-import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.authors.service.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

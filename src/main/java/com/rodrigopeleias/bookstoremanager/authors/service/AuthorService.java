@@ -42,16 +42,31 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
+    public Author createOrUpdateIfExists(AuthorDTO authorDTO) {
+        Optional<Author> optExistingAuthor = authorRepository.findByName(authorDTO.getName());
+        if (optExistingAuthor.isPresent()) {
+            return update(authorDTO, optExistingAuthor.get());
+        }
+        AuthorDTO createdAuthorDTO = create(authorDTO);
+        return authorMapper.toModel(createdAuthorDTO);
+    }
+
+    private Author update(AuthorDTO authorDTO, Author existingAuthor) {
+        existingAuthor.setName(authorDTO.getName());
+        existingAuthor.setAge(authorDTO.getAge());
+        return authorRepository.save(existingAuthor);
+    }
+
     public void delete(Long id) {
         verifyIfExists(id);
         authorRepository.deleteById(id);
     }
 
     private void verifyIfExists(String authorName) {
-        Optional<Author> duplicatedAuthor = authorRepository.findByName(authorName);
-        if (duplicatedAuthor.isPresent()) {
-            throw new AuthorAlreadyExistsException(authorName);
-        }
+        authorRepository.findByName(authorName)
+                .ifPresent(author -> {
+                    throw new AuthorAlreadyExistsException(authorName);
+                });
     }
 
     private void verifyIfExists(Long id) {

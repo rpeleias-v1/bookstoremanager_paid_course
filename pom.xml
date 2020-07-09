@@ -166,7 +166,7 @@
                                         <rule>
                                             <limits>
                                                 <limit>
-                                                    <minimum>0.4</minimum>
+                                                    <minimum>0.1</minimum>
                                                 </limit>
                                             </limits>
                                         </rule>
