@@ -2,7 +2,7 @@ package com.rodrigopeleias.bookstoremanager.books.builder;
 
 import com.rodrigopeleias.bookstoremanager.authors.builder.AuthorDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.authors.dto.AuthorDTO;
-import com.rodrigopeleias.bookstoremanager.books.dto.BookDTO;
+import com.rodrigopeleias.bookstoremanager.books.dto.BookRequestDTO;
 import com.rodrigopeleias.bookstoremanager.publishers.builder.PublisherDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
 import com.rodrigopeleias.bookstoremanager.users.builder.UserDTOBuilder;
@@ -22,10 +22,10 @@ public class BookDTOBuilder {
     private final String isbn = "0-596-52068-9";
 
     @Builder.Default
-    private final PublisherDTO publisher = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+    private final Long publisherId = 2L;
 
     @Builder.Default
-    private final AuthorDTO author = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+    private final Long authorId = 3L;
 
     @Builder.Default
     private final Integer pages = 200;
@@ -35,12 +35,12 @@ public class BookDTOBuilder {
 
     private final UserDTO userDTO = UserDTOBuilder.builder().build().buildUserDTO();
 
-    public BookDTO buildBookDTO() {
-        return new BookDTO(id,
+    public BookRequestDTO buildBookDTO() {
+        return new BookRequestDTO(id,
                 name,
                 isbn,
-                publisher,
-                author,
+                publisherId,
+                authorId,
                 pages,
                 chapters);
     }

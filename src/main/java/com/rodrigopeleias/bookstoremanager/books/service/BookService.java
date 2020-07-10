@@ -1,14 +1,17 @@
 package com.rodrigopeleias.bookstoremanager.books.service;
 
 import com.rodrigopeleias.bookstoremanager.authors.entity.Author;
-import com.rodrigopeleias.bookstoremanager.authors.service.AuthorService;
-import com.rodrigopeleias.bookstoremanager.books.dto.BookDTO;
+import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
+import com.rodrigopeleias.bookstoremanager.authors.repository.AuthorRepository;
+import com.rodrigopeleias.bookstoremanager.books.dto.BookRequestDTO;
+import com.rodrigopeleias.bookstoremanager.books.dto.BookResponseDTO;
 import com.rodrigopeleias.bookstoremanager.books.entity.Book;
 import com.rodrigopeleias.bookstoremanager.books.exception.BookAlreadyExistsException;
 import com.rodrigopeleias.bookstoremanager.books.mapper.BookMapper;
 import com.rodrigopeleias.bookstoremanager.books.repository.BookRepository;
 import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
-import com.rodrigopeleias.bookstoremanager.publishers.service.PublisherService;
+import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
+import com.rodrigopeleias.bookstoremanager.publishers.repository.PublisherRepository;
 import com.rodrigopeleias.bookstoremanager.users.dto.AuthenticatedUser;
 import com.rodrigopeleias.bookstoremanager.users.entity.User;
 import com.rodrigopeleias.bookstoremanager.users.exception.UserNotFoundException;
@@ -25,22 +28,22 @@ public class BookService {
 
     private final UserRepository userRepository;
 
-    private final AuthorService authorService;
+    private final AuthorRepository authorRepository;
 
-    private final PublisherService publisherService;
+    private final PublisherRepository publisherRepository;
 
     private final BookMapper bookMapper = BookMapper.INSTANCE;
 
-    public BookDTO create(AuthenticatedUser authenticatedUser, BookDTO bookDTO) {
+    public BookResponseDTO create(AuthenticatedUser authenticatedUser, BookRequestDTO bookRequestDTO) {
         User foundAuthenticatedUser = verifyAndGetUserIfExists(authenticatedUser);
-        verifyIfIsAlreadyRegistered(bookDTO, foundAuthenticatedUser);
-        Author createdOrUpdatedAuthor = authorService.createOrUpdateIfExists(bookDTO.getAuthor());
-        Publisher createdOrUpdatedPublisher = publisherService.updateIfExists(bookDTO.getPublisher());
+        verifyIfIsAlreadyRegistered(bookRequestDTO, foundAuthenticatedUser);
+        Author foundAuthor = verifyIfAuthorExists(bookRequestDTO);
+        Publisher foundPublisher = verifyIfPublisherExists(bookRequestDTO);
 
-        Book bookToSave = bookMapper.toModel(bookDTO);
+        Book bookToSave = bookMapper.toModel(bookRequestDTO);
         bookToSave.setUser(foundAuthenticatedUser);
-        bookToSave.setAuthor(createdOrUpdatedAuthor);
-        bookToSave.setPublisher(createdOrUpdatedPublisher);
+        bookToSave.setAuthor(foundAuthor);
+        bookToSave.setPublisher(foundPublisher);
 
         Book savedBook = bookRepository.save(bookToSave);
         return bookMapper.toDTO(savedBook);
@@ -51,10 +54,20 @@ public class BookService {
                 .orElseThrow(() -> new UserNotFoundException(authenticatedUser.getUsername()));
     }
 
-    private void verifyIfIsAlreadyRegistered(BookDTO bookDTO, User foundAuthenticatedUser) {
-        bookRepository.findByNameAndIsbnAndUser(bookDTO.getName(), bookDTO.getIsbn(), foundAuthenticatedUser)
+    private Author verifyIfAuthorExists(BookRequestDTO bookRequestDTO) {
+        return authorRepository.findById(bookRequestDTO.getAuthorId())
+                .orElseThrow(() -> new AuthorNotFoundException(bookRequestDTO.getAuthorId()));
+    }
+
+    private void verifyIfIsAlreadyRegistered(BookRequestDTO bookRequestDTO, User foundAuthenticatedUser) {
+        bookRepository.findByNameAndIsbnAndUser(bookRequestDTO.getName(), bookRequestDTO.getIsbn(), foundAuthenticatedUser)
                 .ifPresent(duplicatedBook -> {
-                    throw new BookAlreadyExistsException(bookDTO.getName(), bookDTO.getIsbn(), foundAuthenticatedUser.getName());
+                    throw new BookAlreadyExistsException(bookRequestDTO.getName(), bookRequestDTO.getIsbn(), foundAuthenticatedUser.getName());
                 });
+    }
+
+    private Publisher verifyIfPublisherExists(BookRequestDTO bookRequestDTO) {
+        return publisherRepository.findById(bookRequestDTO.getPublisherId())
+                .orElseThrow(() -> new PublisherNotFoundException(bookRequestDTO.getPublisherId()));
     }
 }

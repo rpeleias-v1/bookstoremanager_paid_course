@@ -1,7 +1,8 @@
 package com.rodrigopeleias.bookstoremanager.books.controller;
 
 import com.rodrigopeleias.bookstoremanager.books.controller.docs.BookControllerDocs;
-import com.rodrigopeleias.bookstoremanager.books.dto.BookDTO;
+import com.rodrigopeleias.bookstoremanager.books.dto.BookRequestDTO;
+import com.rodrigopeleias.bookstoremanager.books.dto.BookResponseDTO;
 import com.rodrigopeleias.bookstoremanager.books.service.BookService;
 import com.rodrigopeleias.bookstoremanager.users.dto.AuthenticatedUser;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class BookController implements BookControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDTO create(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestBody @Valid BookDTO bookDTO) {
-        return bookService.create(authenticatedUser, bookDTO);
+    public BookResponseDTO create(@AuthenticationPrincipal AuthenticatedUser authenticatedUser, @RequestBody @Valid BookRequestDTO bookRequestDTO) {
+        return bookService.create(authenticatedUser, bookRequestDTO);
     }
 }
