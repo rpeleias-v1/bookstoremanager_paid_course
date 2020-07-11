@@ -42,6 +42,11 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
+    public Author verifyAndGetIfExists(Long id) {
+        return authorRepository.findById(id)
+                .orElseThrow(() -> new AuthorNotFoundException(id));
+    }
+
     public Author createOrUpdateIfExists(AuthorDTO authorDTO) {
         Optional<Author> optExistingAuthor = authorRepository.findByName(authorDTO.getName());
         if (optExistingAuthor.isPresent()) {
@@ -51,15 +56,15 @@ public class AuthorService {
         return authorMapper.toModel(createdAuthorDTO);
     }
 
+    public void delete(Long id) {
+        verifyAndGetIfExists(id);
+        authorRepository.deleteById(id);
+    }
+
     private Author update(AuthorDTO authorDTO, Author existingAuthor) {
         existingAuthor.setName(authorDTO.getName());
         existingAuthor.setAge(authorDTO.getAge());
         return authorRepository.save(existingAuthor);
-    }
-
-    public void delete(Long id) {
-        verifyIfExists(id);
-        authorRepository.deleteById(id);
     }
 
     private void verifyIfExists(String authorName) {
@@ -67,10 +72,5 @@ public class AuthorService {
                 .ifPresent(author -> {
                     throw new AuthorAlreadyExistsException(authorName);
                 });
-    }
-
-    private void verifyIfExists(Long id) {
-        authorRepository.findById(id)
-                .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 }

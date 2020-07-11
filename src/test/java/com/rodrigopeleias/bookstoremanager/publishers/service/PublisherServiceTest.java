@@ -7,6 +7,7 @@ import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherAlready
 import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.mapper.PublisherMapper;
 import com.rodrigopeleias.bookstoremanager.publishers.repository.PublisherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,9 +39,16 @@ public class PublisherServiceTest {
     @InjectMocks
     private PublisherService publisherService;
 
+    private PublisherDTOBuilder publisherDtoBuilder;
+
+    @BeforeEach
+    void setUp() {
+        publisherDtoBuilder = PublisherDTOBuilder.builder().build();
+    }
+
     @Test
     void whenNewPublisherIsInformedThenItShouldBeCreated() {
-        PublisherDTO expectedPublisherToCreateDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        PublisherDTO expectedPublisherToCreateDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToCreate = publisherMapper.toModel(expectedPublisherToCreateDTO);
 
         when(publisherRepository.findByNameOrCode(expectedPublisherToCreateDTO.getName(), expectedPublisherToCreateDTO.getCode()))
@@ -54,7 +62,7 @@ public class PublisherServiceTest {
 
     @Test
     void whenExistingPublisherIsInformedThenThrowsAnException() {
-        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        PublisherDTO expectedPublisherToFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherToFindDTO);
 
         when(publisherRepository.findByNameOrCode(expectedPublisherToFindDTO.getName(), expectedPublisherToFindDTO.getCode()))
@@ -65,7 +73,7 @@ public class PublisherServiceTest {
 
     @Test
     void whenListPublishersIsCalledThenReturnPublishers() {
-        PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        PublisherDTO expectedPublisherToFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherToFindDTO);
 
         when(publisherRepository.findAll()).thenReturn(Collections.singletonList(expectedPublisherToFind));
@@ -87,7 +95,7 @@ public class PublisherServiceTest {
 
     @Test
     void whenValidIdIsGivenThenReturnAPublisher() {
-        PublisherDTO expectedPublisherFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        PublisherDTO expectedPublisherFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherFindDTO);
 
         when(publisherRepository.findById(expectedPublisherFindDTO.getId())).thenReturn(Optional.of(expectedPublisherToFind));
@@ -99,7 +107,7 @@ public class PublisherServiceTest {
 
     @Test
     void whenInvalidIdIsGivenThenThrowAnException() {
-        PublisherDTO expectedPublisherFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
+        PublisherDTO expectedPublisherFindDTO = publisherDtoBuilder.buildPublisherDTO();
 
         when(publisherRepository.findById(expectedPublisherFindDTO.getId())).thenReturn(Optional.empty());
 

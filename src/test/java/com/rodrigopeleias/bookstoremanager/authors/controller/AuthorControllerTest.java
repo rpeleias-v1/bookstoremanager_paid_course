@@ -20,7 +20,6 @@ import java.util.Collections;
 import static com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,8 +52,8 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledThenCreatedStatusIsInformed() throws Exception {
-        AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+    void whenPOSTIsCalledThenCreatedStatusOkIsInformed() throws Exception {
+        AuthorDTO expectedCreatedAuthorDTO = authorDTOBuilder.buildAuthorDTO();
 
         when(authorService.create(expectedCreatedAuthorDTO)).thenReturn(expectedCreatedAuthorDTO);
 

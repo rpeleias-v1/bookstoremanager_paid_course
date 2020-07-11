@@ -22,6 +22,7 @@ public class BookRequestDTO {
     @Size(max = 255)
     private String name;
 
+    @NotNull
     @ISBN
     private String isbn;
 

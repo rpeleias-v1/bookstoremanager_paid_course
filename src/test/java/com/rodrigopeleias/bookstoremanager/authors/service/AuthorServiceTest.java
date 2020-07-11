@@ -7,6 +7,7 @@ import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorAlreadyExists
 import com.rodrigopeleias.bookstoremanager.authors.exception.AuthorNotFoundException;
 import com.rodrigopeleias.bookstoremanager.authors.mapper.AuthorMapper;
 import com.rodrigopeleias.bookstoremanager.authors.repository.AuthorRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,9 +38,16 @@ public class AuthorServiceTest {
     @InjectMocks
     private AuthorService authorService;
 
+    private AuthorDTOBuilder authorDtoBuilder;
+
+    @BeforeEach
+    void setUp() {
+        authorDtoBuilder = AuthorDTOBuilder.builder().build();
+    }
+
     @Test
     void whenNewAuthorIsInformedThenItShouldBeCreated() {
-        AuthorDTO expectedAuthorToCreateDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        AuthorDTO expectedAuthorToCreateDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedCreatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
 
         when(authorRepository.save(expectedCreatedAuthor)).thenReturn(expectedCreatedAuthor);
@@ -52,7 +60,7 @@ public class AuthorServiceTest {
 
     @Test
     void whenExistingAuthorIsInformedThenThrowsAnException() {
-        AuthorDTO expectedAuthorToCreateDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        AuthorDTO expectedAuthorToCreateDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedDuplicatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
 
         when(authorRepository.findByName(expectedAuthorToCreateDTO.getName())).thenReturn(Optional.of(expectedDuplicatedAuthor));
@@ -61,8 +69,8 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidNameIsGivenThenReturnAnAuthor(){
-        AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+    void whenValidNameIsGivenThenReturnAnAuthor() {
+        AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
         when(authorRepository.findByName(expectedFoundAuthorDTO.getName())).thenReturn(Optional.of(expectedFoundAuthor));
@@ -74,7 +82,7 @@ public class AuthorServiceTest {
 
     @Test
     void whenInvalidNameIsGivenThenThrowAnException() {
-        AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
 
         when(authorRepository.findByName(expectedFoundAuthorDTO.getName())).thenReturn(Optional.empty());
 
@@ -96,7 +104,7 @@ public class AuthorServiceTest {
 
     @Test
     void whenListAuthorsIsCalledThenReturnEmptyList() {
-        AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+        AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
         when(authorRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
@@ -107,8 +115,8 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidAuthorIdIsGivenTheDeleteThisAuthor(){
-        AuthorDTO expectedDeletedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
+    void whenValidAuthorIdIsGivenTheDeleteThisAuthor() {
+        AuthorDTO expectedDeletedAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
 
         Long expectedDeletedAuthorId = expectedDeletedAuthorDTO.getId();
