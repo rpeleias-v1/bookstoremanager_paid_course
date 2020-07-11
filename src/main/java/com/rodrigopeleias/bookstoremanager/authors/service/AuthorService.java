@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,24 +46,9 @@ public class AuthorService {
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 
-    public Author createOrUpdateIfExists(AuthorDTO authorDTO) {
-        Optional<Author> optExistingAuthor = authorRepository.findByName(authorDTO.getName());
-        if (optExistingAuthor.isPresent()) {
-            return update(authorDTO, optExistingAuthor.get());
-        }
-        AuthorDTO createdAuthorDTO = create(authorDTO);
-        return authorMapper.toModel(createdAuthorDTO);
-    }
-
     public void delete(Long id) {
         verifyAndGetIfExists(id);
         authorRepository.deleteById(id);
-    }
-
-    private Author update(AuthorDTO authorDTO, Author existingAuthor) {
-        existingAuthor.setName(authorDTO.getName());
-        existingAuthor.setAge(authorDTO.getAge());
-        return authorRepository.save(existingAuthor);
     }
 
     private void verifyIfExists(String authorName) {

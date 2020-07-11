@@ -29,15 +29,6 @@ public class PublisherService {
         return publisherMapper.toDTO(createdPublisher);
     }
 
-    public Publisher updateIfExists(PublisherDTO publisherDTO) {
-        Optional<Publisher> optExistingPublisher = publisherRepository.findByNameOrCode(publisherDTO.getName(), publisherDTO.getCode());
-        if (optExistingPublisher.isPresent()) {
-            return update(publisherDTO, optExistingPublisher.get());
-        }
-        PublisherDTO createdPubisherDTO = create(publisherDTO);
-        return publisherMapper.toModel(createdPubisherDTO);
-    }
-
     public List<PublisherDTO> findAll() {
         return publisherRepository.findAll()
                 .stream()
@@ -51,21 +42,14 @@ public class PublisherService {
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
-    public void delete(Long id) {
-        verifyAndGetIfExists(id);
-        publisherRepository.deleteById(id);
-    }
-
     public Publisher verifyAndGetIfExists(Long id) {
         return publisherRepository.findById(id)
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
-    private Publisher update(PublisherDTO publisherDTO, Publisher existingPublisher) {
-        existingPublisher.setName(publisherDTO.getName());
-        existingPublisher.setCode(publisherDTO.getCode());
-        existingPublisher.setFoundationDate(publisherDTO.getFoundationDate());
-        return existingPublisher;
+    public void delete(Long id) {
+        verifyAndGetIfExists(id);
+        publisherRepository.deleteById(id);
     }
 
     private void verifyIfExists(String name, String code) {

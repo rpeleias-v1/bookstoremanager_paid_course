@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -75,7 +76,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUSerIsInformedThenUpdateThisUser(){
+    void whenExistingUSerIsInformedThenUpdateThisUser() {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
@@ -99,6 +100,29 @@ public class UserServiceTest {
         when(userRepository.findById(expectedUpdatedUserDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> userService.update(INVALID_USER_ID, expectedUpdatedUserDTO));
+    }
+
+    @Test
+    void whenValidUsernameIsInformedThenUserEntityShouldBeReturned() {
+        UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
+        User expectedFoundUser = userMapper.toModel(expectedFoundUserDTO);
+
+        when(userRepository.findByUsername(expectedFoundUserDTO.getUsername()))
+                .thenReturn(Optional.of(expectedFoundUser));
+
+        User foundUser = userService.verifyAndGetUserIfExists(expectedFoundUserDTO.getUsername());
+
+        assertThat(foundUser, is(equalTo(expectedFoundUser)));
+    }
+
+    @Test
+    void whenInvalidUsernameIsInformedThenUserEntityShouldBeReturned() {
+        UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
+
+        when(userRepository.findByUsername(expectedFoundUserDTO.getUsername())).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class,
+                () -> userService.verifyAndGetUserIfExists(expectedFoundUserDTO.getUsername()));
     }
 
     @Test
