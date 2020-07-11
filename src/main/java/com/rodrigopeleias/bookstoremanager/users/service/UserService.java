@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public MessageDTO update(Long id, UserDTO userToUpdateDTO) {
-        User foundUser = verifyIfExists(id);
+        User foundUser = verifyAndGetIfExists(id);
 
         userToUpdateDTO.setId(id);
         User userToUpdate = userMapper.toModel(userToUpdateDTO);
@@ -47,11 +47,16 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        verifyIfExists(id);
+        verifyAndGetIfExists(id);
         userRepository.deleteById(id);
     }
 
-    private User verifyIfExists(Long id) {
+    public User verifyAndGetUserIfExists(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    private User verifyAndGetIfExists(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }

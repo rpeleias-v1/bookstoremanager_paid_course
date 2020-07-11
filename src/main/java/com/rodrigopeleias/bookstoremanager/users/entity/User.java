@@ -49,8 +49,7 @@ public class User extends Auditable {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate birthdate;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Book> books;
 
     @Enumerated(EnumType.STRING)

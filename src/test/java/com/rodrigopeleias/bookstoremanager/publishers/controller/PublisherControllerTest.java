@@ -2,7 +2,6 @@ package com.rodrigopeleias.bookstoremanager.publishers.controller;
 
 import com.rodrigopeleias.bookstoremanager.publishers.builder.PublisherDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
-import com.rodrigopeleias.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rodrigopeleias.bookstoremanager.publishers.service.PublisherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
