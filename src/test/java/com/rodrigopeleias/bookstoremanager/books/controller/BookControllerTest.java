@@ -4,6 +4,7 @@ import com.rodrigopeleias.bookstoremanager.books.builder.BookRequestDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.books.builder.BookResponseDTOBuilder;
 import com.rodrigopeleias.bookstoremanager.books.dto.BookRequestDTO;
 import com.rodrigopeleias.bookstoremanager.books.dto.BookResponseDTO;
+import com.rodrigopeleias.bookstoremanager.books.exception.BookNotFoundException;
 import com.rodrigopeleias.bookstoremanager.books.service.BookService;
 import com.rodrigopeleias.bookstoremanager.users.dto.AuthenticatedUser;
 import com.rodrigopeleias.bookstoremanager.utils.JsonConvertionUtils;
@@ -16,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -24,8 +24,10 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
@@ -56,7 +58,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenPOSTBookIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenPOSTBookIsCalledThenStatusCreatedIsInformed() throws Exception {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -65,20 +67,35 @@ public class BookControllerTest {
         mockMvc.perform(post(BOOKS_API_URL_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConvertionUtils.asJsonString(expectedBookToCreateDTO)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(expectedBookToCreateDTO.getId().intValue())))
                 .andExpect(jsonPath("$.name", is(expectedBookToCreateDTO.getName())))
                 .andExpect(jsonPath("$.isbn", is(expectedBookToCreateDTO.getIsbn())));
     }
 
     @Test
-    void whenPOSTBookIsCalledithoutRequiredFieldsThenStatusBadRequestInformed() throws Exception {
+    void whenPOSTBookIsCalledWithoutRequiredFieldsThenStatusBadRequestInformed() throws Exception {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         expectedBookToCreateDTO.setIsbn(null);
 
         mockMvc.perform(post(BOOKS_API_URL_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonConvertionUtils.asJsonString(expectedBookToCreateDTO)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void whenGETBookWithValidIsCalledThenStatusOkIsInformed() throws Exception {
+        BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
+        BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
+
+        when(bookService.findByIdAndUser(any(AuthenticatedUser.class), eq(expectedBookToFind.getId()))).thenReturn(expectedCreatedBookDTO);
+
+        mockMvc.perform(get(BOOKS_API_URL_PATH + "/" + expectedBookToFind.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(expectedBookToFind.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(expectedBookToFind.getName())))
+                .andExpect(jsonPath("$.isbn", is(expectedBookToFind.getIsbn())));
     }
 }
