@@ -6,6 +6,7 @@ import com.rodrigopeleias.bookstoremanager.books.dto.BookRequestDTO;
 import com.rodrigopeleias.bookstoremanager.books.dto.BookResponseDTO;
 import com.rodrigopeleias.bookstoremanager.books.entity.Book;
 import com.rodrigopeleias.bookstoremanager.books.exception.BookAlreadyExistsException;
+import com.rodrigopeleias.bookstoremanager.books.exception.BookNotFoundException;
 import com.rodrigopeleias.bookstoremanager.books.mapper.BookMapper;
 import com.rodrigopeleias.bookstoremanager.books.repository.BookRepository;
 import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
@@ -43,6 +44,13 @@ public class BookService {
         bookToSave.setPublisher(foundPublisher);
         Book savedBook = bookRepository.save(bookToSave);
         return bookMapper.toDTO(savedBook);
+    }
+
+    public BookResponseDTO findByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId) {
+        User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
+        return bookRepository.findByIdAndUser(bookId, foundAuthenticatedUser)
+                .map(bookMapper::toDTO)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
     }
 
     private void verifyIfIsAlreadyRegistered(BookRequestDTO bookRequestDTO, User foundAuthenticatedUser) {
