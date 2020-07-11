@@ -46,14 +46,14 @@ public class UserService {
         return updateMessage(updatedUser);
     }
 
-    public void delete(Long id) {
-        verifyAndGetIfExists(id);
-        userRepository.deleteById(id);
-    }
-
     public User verifyAndGetUserIfExists(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    public void delete(Long id) {
+        verifyAndGetIfExists(id);
+        userRepository.deleteById(id);
     }
 
     private User verifyAndGetIfExists(Long id) {

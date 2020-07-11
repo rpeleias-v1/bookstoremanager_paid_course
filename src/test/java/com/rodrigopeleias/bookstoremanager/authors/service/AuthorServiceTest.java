@@ -115,6 +115,29 @@ public class AuthorServiceTest {
     }
 
     @Test
+    void whenExistingAuthorIdIsGivenThenAuthorEntityShouldBeReturned() {
+        AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
+        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
+
+        when(authorRepository.findById(expectedFoundAuthorDTO.getId()))
+                .thenReturn(Optional.of(expectedFoundAuthor));
+
+        Author foundAuthor = authorService.verifyAndGetIfExists(expectedFoundAuthorDTO.getId());
+
+        assertThat(foundAuthor, is(equalTo(expectedFoundAuthor)));
+    }
+
+    @Test
+    void whenNotExistingAuthorIdIsGivenThenAndExceptinShouldBeThrown() {
+        AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
+        long invalidId = 1L;
+
+        when(authorRepository.findById(invalidId)).thenReturn(Optional.empty());
+
+        assertThrows(AuthorNotFoundException.class, () -> authorService.verifyAndGetIfExists(expectedFoundAuthorDTO.getId()));
+    }
+
+    @Test
     void whenValidAuthorIdIsGivenTheDeleteThisAuthor() {
         AuthorDTO expectedDeletedAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
