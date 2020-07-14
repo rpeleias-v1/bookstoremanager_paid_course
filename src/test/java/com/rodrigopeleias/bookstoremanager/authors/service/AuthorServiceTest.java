@@ -59,7 +59,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenExistingAuthorIsInformedThenThrowsAnException() {
+    void whenExistingAuthorIsInformedThenAnExceptionShouldBeThrown() {
         AuthorDTO expectedAuthorToCreateDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedDuplicatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
 
@@ -69,7 +69,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidNameIsGivenThenReturnAnAuthor() {
+    void whenValidNameIsGivenThenAnAuthorShouldBeReturned() {
         AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
@@ -81,7 +81,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenInvalidNameIsGivenThenThrowAnException() {
+    void whenInvalidNameIsGivenThenAnExceptionShouldBeThrown() {
         AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
 
         when(authorRepository.findByName(expectedFoundAuthorDTO.getName())).thenReturn(Optional.empty());
@@ -90,7 +90,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenListAuthorsIsCalledThenReturnAuthors() {
+    void whenListAuthorsIsCalledThenItShouldBeReturned() {
         AuthorDTO expectedFoundAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
         Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
@@ -103,9 +103,8 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenListAuthorsIsCalledThenReturnEmptyList() {
+    void whenListAuthorsIsCalledThenAndEmptyListShouldBeReturned() {
         AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
-        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
 
         when(authorRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
@@ -128,7 +127,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenNotExistingAuthorIdIsGivenThenAndExceptinShouldBeThrown() {
+    void whenNotExistingAuthorIdIsGivenThenAndExceptionShouldBeThrown() {
         AuthorDTO expectedFoundAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         long invalidId = 1L;
 
@@ -138,7 +137,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenValidAuthorIdIsGivenTheDeleteThisAuthor() {
+    void whenValidAuthorIdIsGivenThenItShouldBeReturned() {
         AuthorDTO expectedDeletedAuthorDTO = authorDtoBuilder.buildAuthorDTO();
         Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
 
@@ -153,7 +152,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void whenInvalidAuthorIsGivenThenThrowAnException() {
+    void whenInvalidAuthorIsGivenThenAnExceptionShouldBeThrown() {
         Long expectedNotFoundAuthorId = 2L;
 
         when(authorRepository.findById(expectedNotFoundAuthorId)).thenReturn(Optional.empty());

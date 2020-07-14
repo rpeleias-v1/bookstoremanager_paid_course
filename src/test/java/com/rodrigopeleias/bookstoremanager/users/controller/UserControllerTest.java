@@ -62,7 +62,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledToCreateUserThenCreatedStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledThenCreatedShouldBeInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         String expectedCreationMessage = "Username rodrigo with ID 1 successfully created";
         MessageDTO expectedCreationMessageDTO = MessageDTO.builder().message(expectedCreationMessage).build();
@@ -77,7 +77,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledToCreateUserWithoutRequiredFieldThenBadRequestStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledTWithoutRequiredFieldThenBadRequestShouldBeInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         userDTO.setUsername(null);
 
@@ -88,7 +88,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledToAuthenticateUserThenOkStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledToAuthenticateUserThenOkShouldBeInformed() throws Exception {
         JwtRequest jwtRequest = jwtRequestBuilder.buildJwtRequest();
         JwtResponse expectedJwtToken = JwtResponse.builder().jwtToken("testToken").build();
 
@@ -102,7 +102,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledToAuthenticateUserWithoutPasswordThenBadRequestIsInformed() throws Exception {
+    void whenPOSTIsCalledToAuthenticateUserWithoutPasswordThenBadRequestShouldBeInformed() throws Exception {
         JwtRequest jwtRequest = jwtRequestBuilder.buildJwtRequest();
         jwtRequest.setPassword(null);
 
@@ -113,7 +113,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenPUTIsCalledThenOkStatusIsInformed() throws Exception {
+    void whenPUTIsCalledThenOkStatusShouldBeInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
         userDTO.setName("Rodrigo updated");
         String expectedCreationMessage = "Username Rodrigo updated with ID 1 successfully updated";
@@ -129,7 +129,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void whenDELETEIsCalledThenNoContentIsInformed() throws Exception {
+    void whenDELETEIsCalledThenNoContentShouldBeInformed() throws Exception {
         UserDTO userDTO = userDTOBuilder.buildUserDTO();
 
         doNothing().when(userService).delete(userDTO.getId());

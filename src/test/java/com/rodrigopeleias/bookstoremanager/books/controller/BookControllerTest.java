@@ -62,7 +62,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenPOSTBookIsCalledThenStatusCreatedIsInformed() throws Exception {
+    void whenPOSTIsCalledThenCreatedShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -78,7 +78,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenPOSTBookIsCalledWithoutRequiredFieldsThenStatusBadRequestInformed() throws Exception {
+    void whenPOSTIsCalledWithoutRequiredFieldsThenBadRequestShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         expectedBookToCreateDTO.setIsbn(null);
 
@@ -89,7 +89,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenGETBookIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenGETIsCalledThenStatusOkShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -104,7 +104,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenGETListBookIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenGETListIsCalledThenStatusOkShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -120,7 +120,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenPUTBookIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenPUTIsCalledThenStatusOkShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToUpdateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -139,7 +139,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenDELETEBookByIdIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenDELETEIsCalledThenStatusNoContentShouldBeInformed() throws Exception {
         BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
 
         doNothing().when(bookService)

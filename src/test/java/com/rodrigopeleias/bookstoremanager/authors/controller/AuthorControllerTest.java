@@ -52,7 +52,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledThenCreatedStatusOkIsInformed() throws Exception {
+    void whenPOSTIsCalledThenStatusCreatedShouldBeInformed() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = authorDTOBuilder.buildAuthorDTO();
 
         when(authorService.create(expectedCreatedAuthorDTO)).thenReturn(expectedCreatedAuthorDTO);
@@ -67,7 +67,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledWithoutRequiredFieldThenBadRequestStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledWithoutRequiredFieldThenBadRequestShouldBeInformed() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
         expectedCreatedAuthorDTO.setName(null);
 
@@ -78,7 +78,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenGETWithValidNameIsCalledThenOkStatusIsReturned() throws Exception {
+    void whenGETWithValidNameIsCalledThenOkStatusShouldBeReturned() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
 
         when(authorService.findByName(expectedCreatedAuthorDTO.getName())).thenReturn(expectedCreatedAuthorDTO);
@@ -92,7 +92,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenGETListIsCalledThenOkStatusIsReturned() throws Exception {
+    void whenGETListIsCalledThenOkStatusShouldBeReturned() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
 
         when(authorService.findAll()).thenReturn(Collections.singletonList(expectedCreatedAuthorDTO));
@@ -106,7 +106,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    void whenDELETEWithValidIdIsCalledThenNoContentStatusIsReturned() throws Exception {
+    void whenDELETEWithValidIdIsCalledThenNoContentShouldBeReturned() throws Exception {
         AuthorDTO expectedCreatedAuthorDTO = AuthorDTOBuilder.builder().build().buildAuthorDTO();
 
         doNothing().when(authorService).delete(expectedCreatedAuthorDTO.getId());

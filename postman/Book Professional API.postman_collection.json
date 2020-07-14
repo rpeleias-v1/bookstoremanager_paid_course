@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Rodrigo Admin\",\n\t\"age\": 32,\n\t\"email\": \"rodrigo.peleias@hotmail.com\",\n\t\"gender\": \"MALE\",\n\t\"username\": \"rodrigo\",\n\t\"password\": \"123456\",\n\t\"birthdate\": \"23/03/1988\",\n\t\"role\": \"ADMIN\"\n}"
+							"raw": "{\n\t\"name\": \"Rodrigo Admin\",\n\t\"age\": 32,\n\t\"email\": \"rodrigo.peleias@gmail.com\",\n\t\"gender\": \"MALE\",\n\t\"username\": \"rodrigo\",\n\t\"password\": \"123456\",\n\t\"birthdate\": \"23/03/1988\",\n\t\"role\": \"ADMIN\"\n}"
 						},
 						"description": ""
 					},
@@ -101,7 +101,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvYWRtaW4iLCJleHAiOjE1OTM5ODk3MzIsImlhdCI6MTU5Mzk3MTczMn0.fCr5xoFjNh992tIEj_Gsuc-vbnylMSkvntlXNbpxYFW7lOMmRxClMqBakmGUibDTsCpj41f89g6LNoSHFWPQCA",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
 								"description": ""
 							}
 						],
@@ -165,13 +165,13 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvYWRtaW4iLCJleHAiOjE1OTQwMTMyMDEsImlhdCI6MTU5Mzk5NTIwMX0.riaGKcUOxJw8YbABnk2RtijIGlP-XLY6eMueYKZWNKBMs0cr41nph_UZ88rKHomHhJSoC6Y37UgNhTUHa75ZKg",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
 								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Rodrigo Peleias\",\n\t\"code\": \"PUB2020\",\n\t\"foundationDate\": \"23/03/1988\"\n}\t"
+							"raw": "{\n\t\"name\": \"Dunha\",\n\t\"code\": \"dunha123\",\n\t\"foundationDate\": \"23/03/1988\"\n}\t"
 						},
 						"description": ""
 					},
@@ -229,14 +229,105 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0MjMwNDA3LCJpYXQiOjE1OTQyMTI0MDd9.mxyNfJvE-DwiQAQ6IFgntN3oPlz2aiROS9f7g6Rrt5tNoD5Peay4g8U6c6C2059MijFBhebEs_4QOu23Wa9wFw",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
 								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Spring Boot Professional 123\",\n\t\"isbn\": \"978-3-16-148410-0\",\n\t\"publisher\": {\n\t\t\"name\": \"Rodrigo Peleias\",\n\t\t\"code\": \"PUB2020\",\n\t\t\"foundationDate\": \"23/03/1988\"\n\t},\n\t\"author\": {\n\t\t\"name\": \"Rodrigo Peleias\",\n\t\t\"age\": 32\n\t},\n\t\"pages\": 100,\n\t\"chapters\": 10\n}"
+							"raw": "{\n\t\"name\": \"Spring Boot Professional 123\",\n\t\"isbn\": \"978-3-16-148410-0\",\n\t\"publisherId\": 1,\n\t\"authorId\": 1,\n\t\"pages\": 100,\n\t\"chapters\": 10\n}"
 						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by Id",
+					"request": {
+						"url": "http://localhost:8080/api/v1/books/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Books by user",
+					"request": {
+						"url": "http://localhost:8080/api/v1/books",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NTMyMDY1LCJpYXQiOjE1OTQ1MTQwNjV9.fVm8iIvbMLhmV5IqQzzI32Lhy97aMN5FBcN1KogcBM1uDL2u0jP-a0hItON8Ua1NMY5lZxkt3j2kQ0L7BAhrvQ",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update author by id",
+					"request": {
+						"url": "http://localhost:8080/api/v1/books/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Spring Boot Professional\",\n\t\"isbn\": \"978-3-16-148410-0\",\n\t\"publisherId\": 2,\n\t\"authorId\": 1,\n\t\"pages\": 200,\n\t\"chapters\": 20\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book by ID",
+					"request": {
+						"url": "http://localhost:8080/api/v1/books/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2RyaWdvIiwiZXhwIjoxNTk0NzEwMjIyLCJpYXQiOjE1OTQ2OTIyMjJ9.Vqt1PcPUYiPDHjlwdtIlPunKPhEWPIbroOPsaie2AaeI-fjwANxPzdfNAEUwantFGyeQlXNfFpAexK-yICNSxQ",
+								"description": ""
+							}
+						],
+						"body": {},
 						"description": ""
 					},
 					"response": []

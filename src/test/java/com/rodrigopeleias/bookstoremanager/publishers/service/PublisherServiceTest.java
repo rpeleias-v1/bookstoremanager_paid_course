@@ -61,7 +61,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenExistingPublisherIsInformedThenThrowsAnException() {
+    void whenExistingPublisherIsInformedThenAnExceptionShouldBeThrown() {
         PublisherDTO expectedPublisherToFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherToFindDTO);
 
@@ -72,7 +72,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenListPublishersIsCalledThenReturnPublishers() {
+    void whenListPublishersIsCalledThenItShouldBeReturned() {
         PublisherDTO expectedPublisherToFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherToFindDTO);
 
@@ -85,7 +85,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenListPublishersIsCalledThenReturnEmptyList() {
+    void whenListPublishersIsCalledThenAndEmptyListShouldBeReturned() {
         when(publisherRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
         List<PublisherDTO> foundPublishersDTO = publisherService.findAll();
@@ -94,7 +94,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenValidIdIsGivenThenReturnAPublisher() {
+    void whenValidIdIsGivenThenAPublisherShouldBeReturned() {
         PublisherDTO expectedPublisherFindDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedPublisherToFind = publisherMapper.toModel(expectedPublisherFindDTO);
 
@@ -106,7 +106,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenInvalidIdIsGivenThenThrowAnException() {
+    void whenInvalidIdIsGivenThenAnExceptionShouldBeThrown() {
         PublisherDTO expectedPublisherFindDTO = publisherDtoBuilder.buildPublisherDTO();
 
         when(publisherRepository.findById(expectedPublisherFindDTO.getId())).thenReturn(Optional.empty());
@@ -115,7 +115,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenExistingPublisherIdIsGivenThenPublisherEntityShouldBeReturned() {
+    void whenExistingPublisherIdIsGivenThenItShouldBeReturned() {
         PublisherDTO expectedFoundPublisherDTO = publisherDtoBuilder.buildPublisherDTO();
         Publisher expectedFoundPublisher = publisherMapper.toModel(expectedFoundPublisherDTO);
 
@@ -128,17 +128,17 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenNotExistingAuthorIdIsGivenThenAndExceptinShouldBeThrown() {
+    void whenNotExistingAuthorIdIsGivenThenAndExceptionShouldBeThrown() {
         PublisherDTO expectedFoundPublisherDTO = publisherDtoBuilder.buildPublisherDTO();
         long invalidId = 1L;
 
         when(publisherRepository.findById(invalidId)).thenReturn(Optional.empty());
-        
+
         assertThrows(PublisherNotFoundException.class, () -> publisherService.verifyAndGetIfExists(expectedFoundPublisherDTO.getId()));
     }
 
     @Test
-    void whenValidPublisherIdIsGivenTheDeleteThisPublisher() {
+    void whenValidPublisherIdIsGivenTheItShouldBeDeleted() {
         PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         Publisher expectedDeletedPublisher = publisherMapper.toModel(expectedPublisherToDeleteDTO);
 
@@ -153,7 +153,7 @@ public class PublisherServiceTest {
     }
 
     @Test
-    void whenInvalidPublisherIsGivenThenThrowAnException() {
+    void whenInvalidPublisherIsGivenThenAnExceptionShouldBeThrown() {
         Long expectedNotFoundPublisherId = 2L;
 
         when(publisherRepository.findById(expectedNotFoundPublisherId)).thenReturn(Optional.empty());
