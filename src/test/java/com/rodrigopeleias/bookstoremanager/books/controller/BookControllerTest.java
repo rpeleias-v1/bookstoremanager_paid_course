@@ -24,9 +24,12 @@ import java.util.Collections;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,7 +89,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenGETBookWithValidUserIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenGETBookIsCalledThenStatusOkIsInformed() throws Exception {
         BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -101,7 +104,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void whenGETListBookWithValidIsCalledThenStatusOkIsInformed() throws Exception {
+    void whenGETListBookIsCalledThenStatusOkIsInformed() throws Exception {
         BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
@@ -114,5 +117,36 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$[0].id", is(expectedBookToFind.getId().intValue())))
                 .andExpect(jsonPath("$[0].name", is(expectedBookToFind.getName())))
                 .andExpect(jsonPath("$[0].isbn", is(expectedBookToFind.getIsbn())));
+    }
+
+    @Test
+    void whenPUTBookIsCalledThenStatusOkIsInformed() throws Exception {
+        BookRequestDTO expectedBookToUpdateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
+        BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
+
+        when(bookService.updateByUser(
+                any(AuthenticatedUser.class),
+                eq(expectedBookToUpdateDTO.getId()),
+                eq(expectedBookToUpdateDTO))).thenReturn(expectedUpdatedBookDTO);
+
+        mockMvc.perform(put(BOOKS_API_URL_PATH + "/" + expectedBookToUpdateDTO.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonConvertionUtils.asJsonString(expectedBookToUpdateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(expectedBookToUpdateDTO.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(expectedBookToUpdateDTO.getName())))
+                .andExpect(jsonPath("$.isbn", is(expectedBookToUpdateDTO.getIsbn())));
+    }
+
+    @Test
+    void whenDELETEBookByIdIsCalledThenStatusOkIsInformed() throws Exception {
+        BookRequestDTO expectedBookToFind = bookRequestDTOBuilder.buildRequestBookDTO();
+
+        doNothing().when(bookService)
+                .deleteByIdAndUser(any(AuthenticatedUser.class), eq(expectedBookToFind.getId()));
+
+        mockMvc.perform(delete(BOOKS_API_URL_PATH + "/" + expectedBookToFind.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }
