@@ -53,7 +53,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledThenCreatedStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledThenCreatedShouldBeInformed() throws Exception {
         PublisherDTO expectedCreatedPublisherDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         when(publisherService.create(expectedCreatedPublisherDTO)).thenReturn(expectedCreatedPublisherDTO);
@@ -68,7 +68,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledWithoutRequiredFieldThenBadRequestStatusIsInformed() throws Exception {
+    void whenPOSTIsCalledWithoutRequiredFieldThenBadRequestShouldBeInformed() throws Exception {
         PublisherDTO expectedCreatedPublisherDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
         expectedCreatedPublisherDTO.setName(null);
 
@@ -79,7 +79,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenGETListIsCalledThenOkStatusIsReturned() throws Exception {
+    void whenGETListIsCalledThenOkShouldBeReturned() throws Exception {
         PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         when(publisherService.findAll()).thenReturn(Collections.singletonList(expectedPublisherToFindDTO));
@@ -93,7 +93,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenGETWithValidIdIsCalledThenOkStatusIsReturned() throws Exception {
+    void whenGETWithValidIdIsCalledThenOkShouldBeReturned() throws Exception {
         PublisherDTO expectedPublisherToFindDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         when(publisherService.findById(expectedPublisherToFindDTO.getId())).thenReturn(expectedPublisherToFindDTO);
@@ -107,7 +107,7 @@ public class PublisherControllerTest {
     }
 
     @Test
-    void whenDELETEWithValidIdIsCalledThenNoContentStatusIsReturned() throws Exception {
+    void whenDELETEWithValidIdIsCalledThenNoContentShouldBeReturned() throws Exception {
         PublisherDTO expectedPublisherToDeleteDTO = PublisherDTOBuilder.builder().build().buildPublisherDTO();
 
         doNothing().when(publisherService).delete(expectedPublisherToDeleteDTO.getId());

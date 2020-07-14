@@ -65,7 +65,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUserIsInformedThenThrowAnException() {
+    void whenExistingUserIsInformedThenAnExceptionShouldBeThrown() {
         UserDTO expectedCreatedUserDTO = userDTOBuilder.buildUserDTO();
         User expectedCreatedUser = userMapper.toModel(expectedCreatedUserDTO);
 
@@ -75,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenExistingUSerIsInformedThenUpdateThisUser() {
+    void whenExistingUserIsInformedThenItShouldBeUpdated() {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
@@ -91,7 +91,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenNotFoundUserIsInformedThenThrowAnException() {
+    void whenNotFoundUserIsInformedThenAnExceptionShouldBeThrown() {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("Rodrigo Update");
         expectedUpdatedUserDTO.setId(INVALID_USER_ID);
@@ -125,7 +125,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenValidUserIsInformedThenDeleteThisUser() {
+    void whenValidUserIsInformedThenItShouldBeDeleted() {
         UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
         User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDTO);
 
@@ -138,7 +138,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenInvalidUserIsInformedThenThrowException() {
+    void whenInvalidUserIsInformedThenAnExceptionShouldBeThrown() {
         UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
 
         when(userRepository.findById(expectedDeletedUserDTO.getId())).thenReturn(Optional.empty());

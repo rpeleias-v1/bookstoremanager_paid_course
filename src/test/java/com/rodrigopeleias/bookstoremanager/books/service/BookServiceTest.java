@@ -108,7 +108,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenExistingBookAndUserIsInformedThenABookShouldBeReturned() {
+    void whenExistingBookIsInformedThenABookShouldBeReturned() {
         BookRequestDTO expectedBookToFindDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedFoundBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
         Book expectedFoundBook = bookMapper.toModel(expectedFoundBookDTO);
@@ -125,7 +125,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenListBookWithUserIsInformedIsCalledhenBooksShouldBeReturned() {
+    void whenListBookIsInformedIsCalledThenItShouldBeReturned() {
         BookResponseDTO expectedFoundBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
         Book expectedFoundBook = bookMapper.toModel(expectedFoundBookDTO);
 
@@ -140,7 +140,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenListBookWithUserIsInformedIsCalledThenEmptyListShouldBeReturned() {
+    void whenListBookIsInformedIsCalledThenEmptyListShouldBeReturned() {
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findAllByUser(any(User.class)))
@@ -152,7 +152,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenNotExistingBookAndUserIsInformedThenAndExceptionShouldBeThrown() {
+    void whenNotExistingBookIsInformedThenAndExceptionShouldBeThrown() {
         BookRequestDTO expectedBookToFindDTO = bookRequestDTOBuilder.buildRequestBookDTO();
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
@@ -165,7 +165,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenExistingBookIdAndUpdateDataIsInformedThenItShouldBeUpdated() {
+    void whenExistingBookIdIsInformedThenItShouldBeUpdated() {
         BookRequestDTO expectedBookToUpdateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
         Book expectedUpdatedBook = bookMapper.toModel(expectedUpdatedBookDTO);
@@ -190,7 +190,6 @@ public class BookServiceTest {
     @Test
     void whenNotExistingBookIdIsInformedThenAnExceptionItShouldBeThrown() {
         BookRequestDTO expectedBookToUpdateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
-        BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByIdAndUser(
@@ -225,7 +224,6 @@ public class BookServiceTest {
     void whenNotExistingBookIdIsInformedThenItAndExceptionShouldBeThrown() {
         BookRequestDTO expectedBookToDelete = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponseDTO();
-        Book expectedUpdatedBook = bookMapper.toModel(expectedUpdatedBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByIdAndUser(
@@ -235,6 +233,5 @@ public class BookServiceTest {
 
         assertThrows(BookNotFoundException.class, () -> bookService.deleteByIdAndUser(authenticatedUser, expectedBookToDelete.getId()));
         verify(bookRepository, times(0)).deleteByIdAndUser(eq(expectedBookToDelete.getId()), any(User.class));
-
     }
 }

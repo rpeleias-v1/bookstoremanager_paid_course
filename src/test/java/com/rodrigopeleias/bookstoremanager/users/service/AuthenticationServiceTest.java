@@ -59,7 +59,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    void whenUsernameAndPasswordIsInformedThenGenerateToken() {
+    void whenUsernameAndPasswordIsInformedThenTokenShouldBeGenerated() {
         JwtRequest jwtRequest = jwtRequestBuilder.buildJwtRequest();
         UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
         User expectedFoundUser = userMapper.toModel(expectedFoundUserDTO);
@@ -91,7 +91,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    void whenInvalidUserIsInformedThenThrowException() {
+    void whenInvalidUserIsInformedThenAnExceptionShouldBeThrown() {
         UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
 
         when(userRepository.findByUsername(expectedFoundUserDTO.getUsername())).thenReturn(Optional.empty());
