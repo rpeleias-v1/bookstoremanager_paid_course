@@ -17,6 +17,7 @@ import com.rodrigopeleias.bookstoremanager.users.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,15 +73,17 @@ public class BookService {
         Publisher foundPublisher = publisherService.verifyAndGetIfExists(bookRequestDTO.getPublisherId());
 
         Book bookToUpdate = bookMapper.toModel(bookRequestDTO);
+        bookToUpdate.setId(foundBook.getId());
         bookToUpdate.setUser(foundAuthenticatedUser);
         bookToUpdate.setAuthor(foundAuthor);
         bookToUpdate.setPublisher(foundPublisher);
         bookToUpdate.setCreatedBy(foundBook.getCreatedBy());
         bookToUpdate.setCreatedDate(foundBook.getCreatedDate());
-        Book savedBook = bookRepository.save(foundBook);
+        Book savedBook = bookRepository.save(bookToUpdate);
         return bookMapper.toDTO(savedBook);
     }
 
+    @Transactional
     public void deleteByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId) {
         User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
         Book foundBookToDelete = findByIdAndUser(bookId, foundAuthenticatedUser);
