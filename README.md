@@ -36,7 +36,7 @@ http://localhost:8080/api/v1/books
 Para abrir a documentação (disponibilizada através do Swagger 2) de todas as operações implementadas com o padrão arquitetural REST, acesse o seguinte link abaixo:
 
 ```
-http://localhost:8080/api/v1/books/swagger-ui.html
+http://localhost:8080/swagger-ui.html
 ```
 
 Após executar o comando acima, basta apenas abrir o seguinte endereço e visualizar a execução do projeto:
