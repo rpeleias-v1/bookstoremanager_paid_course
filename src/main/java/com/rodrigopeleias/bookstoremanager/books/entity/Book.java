@@ -34,7 +34,7 @@ public class Book extends Auditable {
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Author author;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private User user;
 
     @Column(columnDefinition = "integer default 0")

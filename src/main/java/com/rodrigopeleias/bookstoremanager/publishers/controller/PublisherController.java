@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/publishers")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class PublisherController imple/api/v1/publishersments PublisherControllerDocs {
+public class PublisherController implements PublisherControllerDocs {
 
     private PublisherService publisherService;
 
